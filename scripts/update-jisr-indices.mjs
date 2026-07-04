@@ -43,6 +43,14 @@ function bucketForScore(score) {
   return "low";
 }
 
+function levelForPersonalPressure(score) {
+  if (score >= 85) return "Extrema";
+  if (score >= 70) return "Muy alta";
+  if (score >= 50) return "Alta";
+  if (score >= 36) return "Moderada";
+  return "Baja";
+}
+
 function trendFrom(previousValue, currentValue, manualTrend) {
   if (manualTrend) return manualTrend;
   const delta = currentValue - previousValue;
@@ -181,10 +189,17 @@ async function fetchArticles(queryDef, config) {
   }
 }
 
-function scoreArticles(indexConfig, previousValue, articles) {
+function scoreArticles(indexConfig, previousValue, articles, config) {
   const validArticles = articles.filter((article) => !article.error);
   const errors = articles.filter((article) => article.error);
   const keywords = indexConfig.keywords || {};
+  const policy = config.sourcePolicy || {};
+  const minimumArticlesForMovement = policy.minimumArticlesForMovement ?? 4;
+  const maxLowEvidenceMove = policy.maxLowEvidenceMove ?? 1;
+  const smoothing = policy.smoothing || {};
+  const normalNewSignalWeight = smoothing.newSignalWeight ?? 0.3;
+  const shockNewSignalWeight = smoothing.shockNewSignalWeight ?? 0.45;
+  const shockDelta = smoothing.shockDelta ?? 18;
 
   let pressure = 0;
   let relief = 0;
@@ -200,20 +215,41 @@ function scoreArticles(indexConfig, previousValue, articles) {
 
   const volume = Math.min(18, validArticles.length * 1.2);
   const raw = clamp((indexConfig.base || previousValue || 50) + volume + pressure - relief);
-  const current = clamp((previousValue * 0.45) + (raw * 0.55));
   const distinctDomains = new Set(validArticles.map((article) => article.domain).filter(Boolean)).size;
-  const confidence = Math.min(
+  const confidence = Number(Math.min(
     0.9,
     Math.max(0.35, 0.35 + (validArticles.length / 45) + (distinctDomains / 70) - (errors.length * 0.04))
-  );
+  ).toFixed(2));
+
+  if (validArticles.length < minimumArticlesForMovement) {
+    const baseline = clamp(indexConfig.base ?? previousValue ?? 50);
+    const drift = clamp(baseline - previousValue, -maxLowEvidenceMove, maxLowEvidenceMove);
+    return {
+      value: clamp(previousValue + drift),
+      confidence: Math.min(confidence, 0.42),
+      validArticles,
+      errors,
+      pressure,
+      relief,
+      raw,
+      movementMode: "baja_evidencia"
+    };
+  }
+
+  const signalDelta = Math.abs(raw - previousValue);
+  const acuteSignal = signalDelta >= shockDelta || pressure >= 24 || relief >= 18;
+  const newSignalWeight = acuteSignal ? shockNewSignalWeight : normalNewSignalWeight;
+  const current = clamp((previousValue * (1 - newSignalWeight)) + (raw * newSignalWeight));
 
   return {
     value: current,
-    confidence: Number(confidence.toFixed(2)),
+    confidence,
     validArticles,
     errors,
     pressure,
-    relief
+    relief,
+    raw,
+    movementMode: acuteSignal ? "shock_amortiguado" : "amortiguado"
   };
 }
 
@@ -287,7 +323,7 @@ function buildGlobalReading(indices) {
   return [
     top ? `La presion principal viene de ${top.sigla} (${top.valor}).` : "La presion principal aparece contenida.",
     second ? `La segunda senal relevante es ${second.sigla} (${second.valor}).` : "",
-    ipp && ive ? `Posicion personal: IPP ${ipp.valor} e IVE ${ive.valor}; presion baja y ventaja siguen siendo mas importantes que velocidad.` : ""
+    ipp && ive ? `Posicion personal: IPP ${ipp.valor} e IVE ${ive.valor}; presion ${String(ipp.nivel || "contenida").toLowerCase()} y ventaja siguen siendo mas importantes que velocidad.` : ""
   ].filter(Boolean).join(" ");
 }
 
@@ -304,7 +340,7 @@ function personalIndexFromProfile(indexConfig, profile, externalIndices = [], pr
       sigla: "IPP",
       nombre: "Indice de Presion Personal",
       valor: value,
-      nivel: value <= 30 ? "Baja" : levelForScore(value),
+      nivel: levelForPersonalPressure(value),
       tendencia: trendFrom(clamp(previous?.valor ?? baseValue), value),
       confianza: 1,
       categoria: "personal",
@@ -374,7 +410,7 @@ async function buildIndex(indexConfig, previousById, config, profile, currentInd
   const previousValue = clamp(previous?.valor ?? indexConfig.base ?? 50);
   const articleGroups = await Promise.all((indexConfig.queries || []).map((queryDef) => fetchArticles(queryDef, config)));
   const articles = articleGroups.flat();
-  const result = scoreArticles(indexConfig, previousValue, articles);
+  const result = scoreArticles(indexConfig, previousValue, articles, config);
   const evidence = chooseEvidence(result.validArticles);
   const trend = trendFrom(previousValue, result.value);
   const bucket = bucketForScore(result.value);
@@ -392,7 +428,7 @@ async function buildIndex(indexConfig, previousById, config, profile, currentInd
     senal: signalFor(indexConfig, evidence, result.errors),
     accion_jisr: indexConfig.actions?.[bucket] || "Observar sin sobrerreaccionar.",
     evidencia: evidence,
-    motivo_cambio: `Lectura automatica desde fuentes abiertas: ${result.validArticles.length} articulos utiles, ${result.errors.length} incidencias de fuente.`
+    motivo_cambio: `Lectura automatica desde fuentes abiertas: ${result.validArticles.length} articulos utiles, ${result.errors.length} incidencias de fuente; modo ${result.movementMode}.`
   };
 }
 
