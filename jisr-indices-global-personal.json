@@ -1,7 +1,7 @@
 {
   "proyecto": "TELETIPO GLOBAL PERSONAL INDEXES",
   "version": "0.2",
-  "actualizado": "2026-07-04T20:51:30.548Z",
+  "actualizado": "2026-07-04T20:54:06.954Z",
   "timezone": "Europe/Madrid",
   "modo_actualizacion": "automático_público_reglas",
   "escala": {
@@ -10,7 +10,7 @@
     "lectura": "0 equivale a riesgo o tensión muy baja; 100 equivale a riesgo o tensión extrema."
   },
   "titular": "La jornada permite decidir, pero no permite dormirse.",
-  "lectura_jisr": "La presión principal viene de IGP (63). La segunda señal relevante es IMF (60). Posición personal: IPP 28 e IVE 77; presión baja y ventaja siguen siendo más importantes que velocidad.",
+  "lectura_jisr": "La presión principal viene de IGP (62). La segunda señal relevante es IMF (60). Posición personal: IPP 28 e IVE 77; presión baja y ventaja siguen siendo más importantes que velocidad.",
   "posicion_personal": {
     "ipp": 28,
     "ive": 77,
@@ -44,7 +44,7 @@
       "id": "igp",
       "sigla": "IGP",
       "nombre": "Índice Geopolítico",
-      "valor": 63,
+      "valor": 62,
       "nivel": "Alto",
       "tendencia": "estable",
       "confianza": 0.35,
@@ -65,10 +65,10 @@
       "confianza": 0.35,
       "categoria": "economia",
       "lectura": "Alto. Hay fricción suficiente para condicionar decisiones, aunque sin ruptura general del sistema.",
-      "senal": "Fuentes públicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
+      "senal": "Pocas señales nuevas en fuentes abiertas durante la ventana analizada.",
       "accion_jisr": "Evitar planes que dependan de crecimiento limpio y barato.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automática desde fuentes abiertas: 0 artículos útiles, 2 incidencias de fuente; modo baja_evidencia."
+      "motivo_cambio": "Lectura automática desde fuentes abiertas: 0 artículos útiles, 0 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "iecv",
