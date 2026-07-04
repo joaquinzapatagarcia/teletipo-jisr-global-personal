@@ -3,10 +3,10 @@
   const JSON_URL = "https://joaquinzapatagarcia.github.io/teletipo-jisr-global-personal/jisr-indices-global-personal.json";
 
   const fallbackData = {
-    proyecto: "TELETIPO JISR GLOBAL PERSONAL",
+    proyecto: "TELETIPO GLOBAL PERSONAL INDEXES",
     actualizado: "2026-07-04T09:00:00+02:00",
-    titular: "El mundo no esta roto, pero cada decision cuesta mas margen.",
-    lectura_jisr: "La ventaja no esta en acertarlo todo, sino en llegar sobrio cuando el entorno se vuelve caro, ruidoso y emocional.",
+    titular: "El mundo no está roto, pero cada decisión cuesta más margen.",
+    lectura_jisr: "La ventaja no está en acertarlo todo, sino en llegar sobrio cuando el entorno se vuelve caro, ruidoso y emocional.",
     posicion_personal: { ipp: 28, ive: 75 },
     indices: [
       { id: "igp", sigla: "IGP", nombre: "Indice Geopolitico", valor: 82, nivel: "Alto", tendencia: "estable", categoria: "mundo", lectura: "Hay desescalada verbal, pero la paz sigue siendo provisional.", senal: "Conflictos abiertos, negociacion fragil y riesgo de eventos laterales.", accion_jisr: "Mantener prudencia antes de asumir que el riesgo geopolitico ha desaparecido." },
@@ -40,10 +40,82 @@
     return new Intl.DateTimeFormat("es-ES", {
       day: "2-digit",
       month: "2-digit",
-      year: "numeric",
-      hour: "2-digit",
-      minute: "2-digit"
+      year: "numeric"
     }).format(date);
+  }
+
+  function formatScheduledUpdate(value) {
+    if (!value) return "Sin fecha";
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) return value;
+    const slot = new Date(date);
+    const minutes = (date.getHours() * 60) + date.getMinutes();
+
+    if (minutes >= (20 * 60) + 7) {
+      slot.setHours(20, 7, 0, 0);
+    } else if (minutes >= (8 * 60) + 7) {
+      slot.setHours(8, 7, 0, 0);
+    } else {
+      slot.setDate(slot.getDate() - 1);
+      slot.setHours(20, 7, 0, 0);
+    }
+
+    return `${formatDate(slot)} · ${String(slot.getHours()).padStart(2, "0")}:${String(slot.getMinutes()).padStart(2, "0")}`;
+  }
+
+  function withAccents(value) {
+    return String(value || "")
+      .replace(/\bIndice\b/g, "Índice")
+      .replace(/\bindice\b/g, "índice")
+      .replace(/\bIndices\b/g, "Índices")
+      .replace(/\bindices\b/g, "índices")
+      .replace(/\bGeopolitico\b/g, "Geopolítico")
+      .replace(/\bgeopolitico\b/g, "geopolítico")
+      .replace(/\bEconomico\b/g, "Económico")
+      .replace(/\beconomico\b/g, "económico")
+      .replace(/\bEnergia\b/g, "Energía")
+      .replace(/\benergia\b/g, "energía")
+      .replace(/\bLogistica\b/g, "Logística")
+      .replace(/\blogistica\b/g, "logística")
+      .replace(/\bPresion\b/g, "Presión")
+      .replace(/\bpresion\b/g, "presión")
+      .replace(/\bTension\b/g, "Tensión")
+      .replace(/\btension\b/g, "tensión")
+      .replace(/\bSenal\b/g, "Señal")
+      .replace(/\bsenal\b/g, "señal")
+      .replace(/\bAccion\b/g, "Acción")
+      .replace(/\baccion\b/g, "acción")
+      .replace(/\bPosicion\b/g, "Posición")
+      .replace(/\bposicion\b/g, "posición")
+      .replace(/\bdecision\b/g, "decisión")
+      .replace(/\bdecisiones\b/g, "decisiones")
+      .replace(/\bmas\b/g, "más")
+      .replace(/\bpublicas\b/g, "públicas")
+      .replace(/\bpublicos\b/g, "públicos")
+      .replace(/\bfriccion\b/g, "fricción")
+      .replace(/\binflacion\b/g, "inflación")
+      .replace(/\bpoliticas\b/g, "políticas")
+      .replace(/\btodavia\b/g, "todavía")
+      .replace(/\bfisico\b/g, "físico")
+      .replace(/\bfisica\b/g, "física")
+      .replace(/\bpsicologico\b/g, "psicológico")
+      .replace(/\bvolatil\b/g, "volátil")
+      .replace(/\bseleccion\b/g, "selección")
+      .replace(/\bprecipitacion\b/g, "precipitación")
+      .replace(/\bbasica\b/g, "básica")
+      .replace(/\bprospeccion\b/g, "prospección")
+      .replace(/\bejecucion\b/g, "ejecución")
+      .replace(/\bfinanciacion\b/g, "financiación")
+      .replace(/\bexposicion\b/g, "exposición")
+      .replace(/\bfragil\b/g, "frágil")
+      .replace(/\bcriticos\b/g, "críticos")
+      .replace(/\bcriticas\b/g, "críticas")
+      .replace(/\bpequena\b/g, "pequeña")
+      .replace(/\butiles\b/g, "útiles")
+      .replace(/\bautomatica\b/g, "automática")
+      .replace(/\barticulos\b/g, "artículos")
+      .replace(/\bsobrerreaccionar\b/g, "sobrerreaccionar")
+      .replace(/\breaccion\b/g, "reacción");
   }
 
   function average(items) {
@@ -96,7 +168,7 @@
     return `
       <div class="jisr-panel">
         <div class="jisr-top">
-          <div class="jisr-brand"><span class="jisr-dot" aria-hidden="true"></span>Teletipo JISR Global Personal</div>
+          <div class="jisr-brand"><span class="jisr-dot" aria-hidden="true"></span>TELETIPO GLOBAL PERSONAL INDEXES</div>
           <div class="jisr-controls">
             <button class="jisr-btn jisr-btn-primary" type="button" data-action="refresh">Actualizar</button>
             <button class="jisr-btn" type="button" data-action="random">Aleatorio</button>
@@ -105,13 +177,13 @@
           </div>
         </div>
         <article aria-live="polite" aria-atomic="true">
-          <div class="jisr-meta"><span data-field="status">Base local</span><span>|</span><span data-field="updated">04/07/2026, 09:00</span><span>|</span><span data-field="position">IPP 28 · IVE 75</span></div>
+          <div class="jisr-meta"><span data-field="status">Última actualización</span><span>|</span><span data-field="updated">04/07/2026 · 08:07</span><span>|</span><span data-field="position">IPP 28 · IVE 75</span></div>
           <h2 class="jisr-title" data-field="headline"></h2>
           <p class="jisr-reading" data-field="global-reading"></p>
           <div class="jisr-stats" aria-label="Resumen JISR">
-            <div class="jisr-stat"><span class="jisr-label">Tension mundo</span><strong data-field="world-score">--</strong></div>
-            <div class="jisr-stat"><span class="jisr-label">Indice mas alto</span><strong data-field="highest-score">--</strong></div>
-            <div class="jisr-stat"><span class="jisr-label">Presion</span><strong data-field="ipp-score">--</strong></div>
+            <div class="jisr-stat"><span class="jisr-label">Tensión mundo</span><strong data-field="world-score">--</strong></div>
+            <div class="jisr-stat"><span class="jisr-label">Índice más alto</span><strong data-field="highest-score">--</strong></div>
+            <div class="jisr-stat"><span class="jisr-label">Presión</span><strong data-field="ipp-score">--</strong></div>
             <div class="jisr-stat"><span class="jisr-label">Ventaja</span><strong data-field="ive-score">--</strong></div>
           </div>
           <div class="jisr-selected">
@@ -121,14 +193,14 @@
               <div class="jisr-row"><span data-field="selected-code">---</span><span>|</span><span data-field="selected-level">Nivel</span><span>|</span><span data-field="selected-trend">Tendencia</span></div>
             </div>
             <div>
-              <h3 class="jisr-index-name" data-field="selected-name">Indice JISR</h3>
+              <h3 class="jisr-index-name" data-field="selected-name">Índice JISR</h3>
               <p class="jisr-index-reading" data-field="selected-reading"></p>
-              <p class="jisr-note"><span class="jisr-label">Senal:</span> <span data-field="selected-signal">--</span></p>
-              <p class="jisr-note"><span class="jisr-label">Accion JISR:</span> <span data-field="selected-action">--</span></p>
+              <p class="jisr-note"><span class="jisr-label">Señal:</span> <span data-field="selected-signal">--</span></p>
+              <p class="jisr-note"><span class="jisr-label">Acción JISR:</span> <span data-field="selected-action">--</span></p>
             </div>
           </div>
         </article>
-        <div class="jisr-grid" data-field="grid" aria-label="Indices JISR"></div>
+        <div class="jisr-grid" data-field="grid" aria-label="Índices JISR"></div>
       </div>
     `;
   }
@@ -148,11 +220,11 @@
     const item = indices[selectedIndex] || indices[0];
     const score = clampScore(item.valor);
 
-    fields.status.textContent = sourceLabel || "Base local";
-    fields.updated.textContent = formatDate(data.actualizado);
+    fields.status.textContent = sourceLabel || "Última actualización";
+    fields.updated.textContent = formatScheduledUpdate(data.actualizado);
     fields.position.textContent = `IPP ${ipp ? clampScore(ipp.valor) : "--"} · IVE ${ive ? clampScore(ive.valor) : "--"}`;
-    fields.headline.textContent = data.titular || "Tablero de Indices JISR";
-    fields["global-reading"].textContent = data.lectura_jisr || "";
+    fields.headline.textContent = withAccents(data.titular || "Tablero de Índices JISR");
+    fields["global-reading"].textContent = withAccents(data.lectura_jisr || "");
     fields["world-score"].textContent = average(worldItems);
     fields["highest-score"].textContent = highest ? `${highest.sigla} ${clampScore(highest.valor)}` : "--";
     fields["ipp-score"].textContent = ipp ? clampScore(ipp.valor) : "--";
@@ -160,12 +232,12 @@
     fields["selected-value"].textContent = score;
     fields["selected-bar"].style.width = `${score}%`;
     fields["selected-code"].textContent = item.sigla || item.id || "--";
-    fields["selected-level"].textContent = item.nivel || "Sin nivel";
-    fields["selected-trend"].textContent = `Tendencia ${item.tendencia || "sin dato"}`;
-    fields["selected-name"].textContent = item.nombre || "Indice JISR";
-    fields["selected-reading"].textContent = item.lectura || "";
-    fields["selected-signal"].textContent = item.senal || "Sin senal definida.";
-    fields["selected-action"].textContent = item.accion_jisr || "Sin accion definida.";
+    fields["selected-level"].textContent = withAccents(item.nivel || "Sin nivel");
+    fields["selected-trend"].textContent = withAccents(`Tendencia ${item.tendencia || "sin dato"}`);
+    fields["selected-name"].textContent = withAccents(item.nombre || "Índice JISR");
+    fields["selected-reading"].textContent = withAccents(item.lectura || "");
+    fields["selected-signal"].textContent = withAccents(item.senal || "Sin señal definida.");
+    fields["selected-action"].textContent = withAccents(item.accion_jisr || "Sin acción definida.");
 
     fields.grid.replaceChildren();
     indices.forEach((indexItem, index) => {
@@ -174,7 +246,7 @@
       button.type = "button";
       button.dataset.index = String(index);
       button.setAttribute("aria-pressed", String(index === selectedIndex));
-      button.innerHTML = `<span class="jisr-tile-value"><span>${indexItem.sigla || indexItem.id || "--"}</span><span>${clampScore(indexItem.valor)}</span></span><span class="jisr-tile-name">${indexItem.nivel || indexItem.nombre || ""}</span>`;
+      button.innerHTML = `<span class="jisr-tile-value"><span>${indexItem.sigla || indexItem.id || "--"}</span><span>${clampScore(indexItem.valor)}</span></span><span class="jisr-tile-name">${withAccents(indexItem.nivel || indexItem.nombre || "")}</span>`;
       fields.grid.appendChild(button);
     });
   }
@@ -185,7 +257,7 @@
       const response = await fetch(`${JSON_URL}?v=${Date.now()}`);
       if (!response.ok) throw new Error("No se pudo leer el JSON");
       data = await response.json();
-      render(root, "GitHub JSON");
+      render(root, "Última actualización");
     } catch (error) {
       data = fallbackData;
       render(root, "Modo prototipo");
@@ -202,7 +274,7 @@
     root.dataset.jisrStarted = "true";
     injectStyle();
     root.innerHTML = buildHtml();
-    render(root, "Base local");
+    render(root, "Última actualización");
 
     root.addEventListener("click", (event) => {
       const action = event.target.closest("[data-action]");

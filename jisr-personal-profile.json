@@ -27,7 +27,7 @@
         "tratamiento": "ubicacion temporal ocasional"
       }
     ],
-    "regla_isfl": "La ubicacion base es Palma. Una estancia de un mes o mas en otra ciudad debe activar lectura temporal del ISFL."
+    "regla_isfl": "La ubicación base es Palma. Una estancia de un mes o más en otra ciudad debe activar lectura temporal del ISFL."
   },
   "familia_y_entorno": {
     "pareja": {
@@ -38,7 +38,7 @@
     "hijos": {
       "numero": 2,
       "edades": [12, 10],
-      "estado_general": "bien fisica y escolarmente",
+      "estado_general": "bien física y escolarmente",
       "dedicacion_usuario": "alta y voluntaria",
       "lectura": "obligacion familiar alta, pero con sentido estrategico y afectivo"
     },
@@ -48,7 +48,7 @@
       "apoyo_economico": "no imprescindible, pero relevante para gastos extra de nietos y familia",
       "riesgo": "su perdida tendria impacto emocional y moderado impacto economico"
     },
-    "seguridad_fisica": "normal/correcta para ciudadano anonimo con cierta presencia cultural local previa"
+    "seguridad_fisica": "normal/correcta para ciudadano anónimo con cierta presencia cultural local previa"
   },
   "situacion_financiera": {
     "ingresos_personales_mensuales": "modestos y estables, alrededor de 1500 EUR",
@@ -72,11 +72,11 @@
     "estado_general": "correcto, sin problemas importantes detectados",
     "area_mejora": "alimentacion y ejercicio",
     "energia_fisica_mental": "media/buena",
-    "lectura": "hay margen de mejora fisica que podria elevar IVE y reducir IPP"
+    "lectura": "hay margen de mejora física que podría elevar IVE y reducir IPP"
   },
   "presion_personal_ipp": {
     "valor_base": 28,
-    "lectura": "presion personal baja",
+    "lectura": "presión personal baja",
     "factores_que_reducen_presion": [
       "vivienda pagada",
       "deuda baja",
@@ -93,26 +93,26 @@
       "capacidad de ahorro limitada",
       "dependencia parcial de apoyo familiar no imprescindible",
       "salud mejorable por sobrepeso",
-      "red profesional pequena todavia en construccion"
+      "red profesional pequeña todavía en construcción"
     ],
     "eventos_que_suben_ipp": [
       "enfermedad grave propia o familiar",
       "perdida del trabajo estable de la pareja",
       "perdida relevante de ingresos recurrentes",
       "aumento fuerte de gastos fijos",
-      "ubicacion temporal con riesgo operativo o coste alto"
+      "ubicación temporal con riesgo operativo o coste alto"
     ],
     "eventos_que_bajan_ipp": [
       "nuevo ingreso recurrente estable",
-      "mejora clara de salud y energia",
-      "mas clientes recurrentes",
+      "mejora clara de salud y energía",
+      "más clientes recurrentes",
       "mejor control de gastos",
       "mejora de red profesional util"
     ]
   },
   "ventaja_estrategica_ive": {
     "valor_base": 75,
-    "lectura": "ventaja estrategica alta",
+    "lectura": "ventaja estratégica alta",
     "activos_profesionales": [
       "sesiones sobre bolsa y mercados",
       "ingresos patrimoniales modestos",
@@ -149,7 +149,7 @@
     "diferenciadores": [
       "criterio",
       "escritura",
-      "intuicion estrategica",
+      "intuición estratégica",
       "trato personal",
       "cultura",
       "vision de futuro",
@@ -167,7 +167,7 @@
     "eventos_que_bajan_ive": [
       "dispersion excesiva",
       "falta de prospeccion",
-      "agotamiento fisico",
+      "agotamiento físico",
       "red profesional sin activacion",
       "demasiados proyectos sin cierre"
     ]
@@ -176,8 +176,8 @@
     "crecimiento personal y profesional",
     "crecimiento de los hijos",
     "atender sesiones de pago",
-    "darse a conocer y conseguir mas clientes",
-    "mejorar cuidado fisico"
+    "darse a conocer y conseguir más clientes",
+    "mejorar cuidado físico"
   ],
   "riesgo_de_dispersion": {
     "nivel": "moderado",
@@ -188,7 +188,7 @@
     "revision_periodica": "cada tres meses",
     "actualizar_antes_si": [
       "cambio importante de ubicacion",
-      "viaje o estancia de un mes o mas",
+      "viaje o estancia de un mes o más",
       "enfermedad grave",
       "cambio fuerte en ingresos",
       "nuevo ingreso fijo mensual",

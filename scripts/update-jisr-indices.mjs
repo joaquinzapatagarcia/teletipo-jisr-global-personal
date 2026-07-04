@@ -270,7 +270,7 @@ function readingFor(indexConfig, score, trend, evidence) {
   const firstSignal = evidence[0]?.titulo;
 
   if (score >= 85) {
-    return `Tension extrema. ${firstSignal ? `La senal dominante viene de: ${firstSignal}` : "El conjunto de senales exige maxima prudencia."}`;
+    return `Tensión extrema. ${firstSignal ? `La señal dominante viene de: ${firstSignal}` : "El conjunto de señales exige máxima prudencia."}`;
   }
 
   if (score >= 70) {
@@ -278,14 +278,14 @@ function readingFor(indexConfig, score, trend, evidence) {
   }
 
   if (score >= 50) {
-    return `Alto. Hay friccion suficiente para condicionar decisiones, aunque sin ruptura general del sistema.`;
+    return `Alto. Hay fricción suficiente para condicionar decisiones, aunque sin ruptura general del sistema.`;
   }
 
   if (score >= 30) {
-    return `Moderado. El riesgo existe, pero todavia permite decidir con margen y sin urgencia artificial.`;
+    return `Moderado. El riesgo existe, pero todavía permite decidir con margen y sin urgencia artificial.`;
   }
 
-  return `Bajo. La senal aparece contenida; conviene observar sin sobreactuar.`;
+  return `Bajo. La señal aparece contenida; conviene observar sin sobreactuar.`;
 }
 
 function signalFor(indexConfig, evidence, errors) {
@@ -294,10 +294,10 @@ function signalFor(indexConfig, evidence, errors) {
   }
 
   if (errors.length) {
-    return "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.";
+    return "Fuentes públicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.";
   }
 
-  return "Pocas senales nuevas en fuentes abiertas durante la ventana analizada.";
+  return "Pocas señales nuevas en fuentes abiertas durante la ventana analizada.";
 }
 
 function buildHeadline(indices) {
@@ -305,8 +305,8 @@ function buildHeadline(indices) {
   const average = Math.round(nonPersonal.reduce((sum, item) => sum + item.valor, 0) / Math.max(1, nonPersonal.length));
   const top = nonPersonal.reduce((current, item) => (item.valor > current.valor ? item : current), nonPersonal[0]);
 
-  if (!top) return "Tablero de Indices JISR actualizado.";
-  if (average >= 75) return `Jornada de tension alta: ${top.sigla} marca el centro del tablero.`;
+  if (!top) return "Tablero de Índices JISR actualizado.";
+  if (average >= 75) return `Jornada de tensión alta: ${top.sigla} marca el centro del tablero.`;
   if (average >= 60) return `El mundo sigue caro, sensible y poco dispuesto a regalar margen.`;
   if (average >= 45) return `La jornada permite decidir, pero no permite dormirse.`;
   return `Ventana relativamente estable: buen momento para ordenar criterio.`;
@@ -321,9 +321,9 @@ function buildGlobalReading(indices) {
   const ive = indices.find((item) => item.id === "ive");
 
   return [
-    top ? `La presion principal viene de ${top.sigla} (${top.valor}).` : "La presion principal aparece contenida.",
-    second ? `La segunda senal relevante es ${second.sigla} (${second.valor}).` : "",
-    ipp && ive ? `Posicion personal: IPP ${ipp.valor} e IVE ${ive.valor}; presion ${String(ipp.nivel || "contenida").toLowerCase()} y ventaja siguen siendo mas importantes que velocidad.` : ""
+    top ? `La presión principal viene de ${top.sigla} (${top.valor}).` : "La presión principal aparece contenida.",
+    second ? `La segunda señal relevante es ${second.sigla} (${second.valor}).` : "",
+    ipp && ive ? `Posición personal: IPP ${ipp.valor} e IVE ${ive.valor}; presión ${String(ipp.nivel || "contenida").toLowerCase()} y ventaja siguen siendo más importantes que velocidad.` : ""
   ].filter(Boolean).join(" ");
 }
 
@@ -338,7 +338,7 @@ function personalIndexFromProfile(indexConfig, profile, externalIndices = [], pr
     return {
       id: "ipp",
       sigla: "IPP",
-      nombre: "Indice de Presion Personal",
+      nombre: "Índice de Presión Personal",
       valor: value,
       nivel: levelForPersonalPressure(value),
       tendencia: trendFrom(clamp(previous?.valor ?? baseValue), value),
@@ -365,7 +365,7 @@ function personalIndexFromProfile(indexConfig, profile, externalIndices = [], pr
     return {
       id: "ive",
       sigla: "IVE",
-      nombre: "Indice de Ventaja Estrategica",
+      nombre: "Índice de Ventaja Estratégica",
       valor: value,
       nivel: levelForScore(value),
       tendencia: trendFrom(clamp(previous?.valor ?? baseValue), value),
@@ -373,7 +373,7 @@ function personalIndexFromProfile(indexConfig, profile, externalIndices = [], pr
       categoria: "personal",
       lectura: `${advantage.lectura || indexConfig.reading}. Ajuste exterior: ${adjustment >= 0 ? "+" : ""}${adjustment} puntos.`,
       senal: (advantage.diferenciadores || []).slice(0, 5).join(" | ") || indexConfig.signal,
-      accion_jisr: "Convertir ventaja en prospeccion, producto y agenda profesional activa.",
+      accion_jisr: "Convertir ventaja en prospección, producto y agenda profesional activa.",
       evidencia: [],
       motivo_cambio: `Base personal ${baseValue}; ajuste por necesidad exterior de criterio ${adjustment >= 0 ? "+" : ""}${adjustment}.`
     };
@@ -403,7 +403,7 @@ async function buildIndex(indexConfig, previousById, config, profile, currentInd
       senal: indexConfig.signal,
       accion_jisr: indexConfig.action,
       evidencia: [],
-      motivo_cambio: "Indice personal fijado por criterio manual."
+      motivo_cambio: "Índice personal fijado por criterio manual."
     };
   }
 
@@ -428,7 +428,7 @@ async function buildIndex(indexConfig, previousById, config, profile, currentInd
     senal: signalFor(indexConfig, evidence, result.errors),
     accion_jisr: indexConfig.actions?.[bucket] || "Observar sin sobrerreaccionar.",
     evidencia: evidence,
-    motivo_cambio: `Lectura automatica desde fuentes abiertas: ${result.validArticles.length} articulos utiles, ${result.errors.length} incidencias de fuente; modo ${result.movementMode}.`
+    motivo_cambio: `Lectura automática desde fuentes abiertas: ${result.validArticles.length} artículos útiles, ${result.errors.length} incidencias de fuente; modo ${result.movementMode}.`
   };
 }
 
@@ -474,7 +474,7 @@ async function main() {
     fuentes_resumen: {
       politica: config.sourcePolicy,
       total_evidencias: indices.reduce((sum, item) => sum + (item.evidencia || []).length, 0),
-      nota: offline ? "Ejecucion offline: no se consultaron fuentes externas." : "Fuentes abiertas consultadas mediante GDELT Doc API."
+      nota: offline ? "Ejecución offline: no se consultaron fuentes externas." : "Fuentes abiertas consultadas mediante GDELT Doc API."
     },
     indices
   };
