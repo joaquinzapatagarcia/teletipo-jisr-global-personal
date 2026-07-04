@@ -1,0 +1,41 @@
+name: Actualizar Teletipo JISR Global Personal
+
+on:
+  schedule:
+    - cron: '0 8 * * *'
+      timezone: 'Europe/Madrid'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-json:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Ejecutar agente JISR
+        run: node scripts/update-jisr-indices.mjs
+
+      - name: Validar JSON
+        run: node -e "JSON.parse(require('fs').readFileSync('jisr-indices-global-personal.json','utf8')); console.log('JSON OK')"
+
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add jisr-indices-global-personal.json
+          if git diff --cached --quiet; then
+            echo "Sin cambios en el JSON."
+          else
+            git commit -m "Actualiza indices JISR Global Personal"
+            git push
+          fi
