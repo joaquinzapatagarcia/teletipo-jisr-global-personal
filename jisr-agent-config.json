@@ -17,6 +17,13 @@
     "lookback": "1d",
     "maxRecordsPerQuery": 20,
     "minimumArticlesForHighConfidence": 18,
+    "minimumArticlesForMovement": 4,
+    "maxLowEvidenceMove": 1,
+    "smoothing": {
+      "newSignalWeight": 0.3,
+      "shockNewSignalWeight": 0.45,
+      "shockDelta": 18
+    },
     "notes": "Primera version con fuentes abiertas y reglas JISR. Las puntuaciones son soporte de criterio, no dato financiero ni recomendacion."
   },
   "indices": [
