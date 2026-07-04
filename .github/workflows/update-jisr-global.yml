@@ -2,7 +2,9 @@ name: Actualizar Teletipo JISR Global Personal
 
 on:
   schedule:
-    - cron: '0 8 * * *'
+    - cron: '7 8 * * *'
+      timezone: 'Europe/Madrid'
+    - cron: '7 20 * * *'
       timezone: 'Europe/Madrid'
   workflow_dispatch:
 
@@ -22,7 +24,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Ejecutar agente JISR
+      - name: Actualizar indices JISR
         run: node scripts/update-jisr-indices.mjs
 
       - name: Validar JSON
