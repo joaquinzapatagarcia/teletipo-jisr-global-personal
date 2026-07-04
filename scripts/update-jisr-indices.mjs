@@ -51,6 +51,72 @@ function trendFrom(previousValue, currentValue, manualTrend) {
   return "estable";
 }
 
+function externalById(indices = []) {
+  return new Map(indices.filter((item) => item && item.categoria !== "personal").map((item) => [item.id, item]));
+}
+
+function weightedScore(itemsById, weights, fallback = 50) {
+  let total = 0;
+  let weightTotal = 0;
+
+  for (const [id, weight] of Object.entries(weights)) {
+    const item = itemsById.get(id);
+    if (!item) continue;
+    total += clamp(item.valor, 0, 100) * weight;
+    weightTotal += weight;
+  }
+
+  return weightTotal ? total / weightTotal : fallback;
+}
+
+function pressureAdjustment(externalIndices) {
+  const byId = externalById(externalIndices);
+  const worldPressure = weightedScore(byId, {
+    igp: 1.25,
+    ieg: 0.85,
+    iecv: 1,
+    icsl: 0.75,
+    imf: 1,
+    icsp: 0.85,
+    ics: 0.65,
+    isfl: 1.45
+  });
+
+  const shock =
+    Math.max(0, (clamp(byId.get("igp")?.valor) - 70) / 6) +
+    Math.max(0, (clamp(byId.get("iecv")?.valor) - 65) / 7) +
+    Math.max(0, (clamp(byId.get("imf")?.valor) - 65) / 7) +
+    Math.max(0, (clamp(byId.get("isfl")?.valor) - 35) / 5) +
+    Math.max(0, (clamp(byId.get("icsp")?.valor) - 68) / 8);
+
+  const calmCredit = worldPressure < 45 ? -2 : worldPressure < 52 ? -1 : 0;
+  return clamp(((worldPressure - 50) / 5) + shock + calmCredit, -3, 14);
+}
+
+function advantageAdjustment(externalIndices, adjustedIpp) {
+  const byId = externalById(externalIndices);
+  const needForCriterion = weightedScore(byId, {
+    igp: 1.15,
+    ieg: 0.95,
+    iecv: 0.8,
+    imf: 1,
+    icsp: 1.05,
+    ics: 0.75,
+    icsl: 0.65,
+    isfl: 0.45
+  });
+  const scores = [...byId.values()].map((item) => clamp(item.valor));
+  const top = scores.length ? Math.max(...scores) : needForCriterion;
+  const dispersion = scores.length ? Math.max(...scores) - Math.min(...scores) : 0;
+  const opportunity =
+    ((needForCriterion - 50) / 7) +
+    Math.max(0, (top - 65) / 8) +
+    Math.max(0, (dispersion - 22) / 12);
+  const pressureDrag = Math.max(0, (adjustedIpp - 42) / 4);
+
+  return clamp(opportunity - pressureDrag, -4, 10);
+}
+
 async function readJson(filePath, fallback) {
   try {
     const raw = await fs.readFile(filePath, "utf8");
@@ -225,55 +291,66 @@ function buildGlobalReading(indices) {
   ].filter(Boolean).join(" ");
 }
 
-function personalIndexFromProfile(indexConfig, profile) {
+function personalIndexFromProfile(indexConfig, profile, externalIndices = [], previous) {
   if (!profile || !indexConfig.manual) return null;
 
   if (indexConfig.id === "ipp" && profile.presion_personal_ipp) {
     const pressure = profile.presion_personal_ipp;
+    const baseValue = clamp(pressure.valor_base ?? indexConfig.value);
+    const adjustment = pressureAdjustment(externalIndices);
+    const value = clamp(baseValue + adjustment);
     return {
       id: "ipp",
       sigla: "IPP",
       nombre: "Indice de Presion Personal",
-      valor: clamp(pressure.valor_base ?? indexConfig.value),
-      nivel: pressure.valor_base <= 30 ? "Baja" : levelForScore(pressure.valor_base, indexConfig.level),
-      tendencia: indexConfig.trend || "estable",
+      valor: value,
+      nivel: value <= 30 ? "Baja" : levelForScore(value),
+      tendencia: trendFrom(clamp(previous?.valor ?? baseValue), value),
       confianza: 1,
       categoria: "personal",
-      lectura: pressure.lectura || indexConfig.reading,
-      senal: (pressure.factores_que_reducen_presion || []).slice(0, 3).join(" | ") || indexConfig.signal,
+      lectura: `${pressure.lectura || indexConfig.reading}. Ajuste exterior: ${adjustment >= 0 ? "+" : ""}${adjustment} puntos.`,
+      senal: [
+        (pressure.factores_que_reducen_presion || []).slice(0, 2).join(" | "),
+        (pressure.factores_que_aumentan_presion || []).slice(0, 2).join(" | ")
+      ].filter(Boolean).join(" | ") || indexConfig.signal,
       accion_jisr: "Proteger margen, salud, foco y estabilidad familiar antes de aumentar riesgo.",
       evidencia: [],
-      motivo_cambio: "Indice calculado desde jisr-personal-profile.json."
+      motivo_cambio: `Base personal ${baseValue}; ajuste por contexto exterior ${adjustment >= 0 ? "+" : ""}${adjustment}.`
     };
   }
 
   if (indexConfig.id === "ive" && profile.ventaja_estrategica_ive) {
     const advantage = profile.ventaja_estrategica_ive;
+    const baseValue = clamp(advantage.valor_base ?? indexConfig.value);
+    const ippBase = clamp(profile.presion_personal_ipp?.valor_base ?? 28);
+    const adjustedIpp = clamp(ippBase + pressureAdjustment(externalIndices));
+    const adjustment = advantageAdjustment(externalIndices, adjustedIpp);
+    const value = clamp(baseValue + adjustment);
     return {
       id: "ive",
       sigla: "IVE",
       nombre: "Indice de Ventaja Estrategica",
-      valor: clamp(advantage.valor_base ?? indexConfig.value),
-      nivel: levelForScore(advantage.valor_base, indexConfig.level),
-      tendencia: indexConfig.trend || "sube",
+      valor: value,
+      nivel: levelForScore(value),
+      tendencia: trendFrom(clamp(previous?.valor ?? baseValue), value),
       confianza: 1,
       categoria: "personal",
-      lectura: advantage.lectura || indexConfig.reading,
+      lectura: `${advantage.lectura || indexConfig.reading}. Ajuste exterior: ${adjustment >= 0 ? "+" : ""}${adjustment} puntos.`,
       senal: (advantage.diferenciadores || []).slice(0, 5).join(" | ") || indexConfig.signal,
       accion_jisr: "Convertir ventaja en prospeccion, producto y agenda profesional activa.",
       evidencia: [],
-      motivo_cambio: "Indice calculado desde jisr-personal-profile.json."
+      motivo_cambio: `Base personal ${baseValue}; ajuste por necesidad exterior de criterio ${adjustment >= 0 ? "+" : ""}${adjustment}.`
     };
   }
 
   return null;
 }
 
-async function buildIndex(indexConfig, previousById, config, profile) {
+async function buildIndex(indexConfig, previousById, config, profile, currentIndices = []) {
   const previous = previousById.get(indexConfig.id);
 
   if (indexConfig.manual) {
-    const profileIndex = personalIndexFromProfile(indexConfig, profile);
+    const profileIndex = personalIndexFromProfile(indexConfig, profile, currentIndices, previous);
     if (profileIndex) return profileIndex;
 
     const value = clamp(indexConfig.value);
@@ -330,7 +407,7 @@ async function main() {
 
   const indices = [];
   for (const indexConfig of config.indices) {
-    indices.push(await buildIndex(indexConfig, previousById, config, profile));
+    indices.push(await buildIndex(indexConfig, previousById, config, profile, indices));
   }
 
   const now = new Date();
