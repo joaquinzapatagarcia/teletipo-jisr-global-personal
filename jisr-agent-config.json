@@ -1,0 +1,226 @@
+{
+  "project": "TELETIPO JISR GLOBAL PERSONAL",
+  "dataFile": "jisr-indices-global-personal.json",
+  "timezone": "Europe/Madrid",
+  "updateMode": "automatico_publico_reglas",
+  "scale": {
+    "min": 0,
+    "max": 100,
+    "reading": "0 equivale a riesgo o tension muy baja; 100 equivale a riesgo o tension extrema."
+  },
+  "personalPosition": {
+    "ipp": 28,
+    "ive": 75,
+    "summary": "Presion personal baja y ventaja estrategica alta por sobriedad, criterio y capacidad de reaccion."
+  },
+  "sourcePolicy": {
+    "lookback": "1d",
+    "maxRecordsPerQuery": 20,
+    "minimumArticlesForHighConfidence": 18,
+    "notes": "Primera version con fuentes abiertas y reglas JISR. Las puntuaciones son soporte de criterio, no dato financiero ni recomendacion."
+  },
+  "indices": [
+    {
+      "id": "igp",
+      "sigla": "IGP",
+      "nombre": "Indice Geopolitico",
+      "categoria": "mundo",
+      "base": 62,
+      "keywords": {
+        "high": ["war", "missile", "attack", "strike", "invasion", "sanctions", "nuclear", "escalation", "red sea", "hormuz", "iran", "israel", "russia", "ukraine", "taiwan"],
+        "medium": ["ceasefire", "diplomacy", "summit", "negotiation", "border", "military", "naval", "security"],
+        "down": ["truce", "agreement", "de-escalation", "peace talks"]
+      },
+      "queries": [
+        { "label": "geopolitica global", "query": "geopolitical risk OR war OR sanctions OR military escalation", "weight": 1.0 },
+        { "label": "rutas energeticas sensibles", "query": "Hormuz OR Red Sea OR maritime security OR oil tanker attack", "weight": 1.15 }
+      ],
+      "actions": {
+        "low": "Mantener vigilancia sin sobrerreaccionar.",
+        "medium": "Separar ruido diplomatico de riesgo operativo.",
+        "high": "Mantener prudencia antes de asumir que el riesgo geopolitico ha desaparecido.",
+        "extreme": "Reducir decisiones vulnerables a shock geopolitico hasta nueva confirmacion."
+      }
+    },
+    {
+      "id": "ieg",
+      "sigla": "IEG",
+      "nombre": "Indice Economico Global",
+      "categoria": "economia",
+      "base": 55,
+      "keywords": {
+        "high": ["recession", "slowdown", "inflation", "stagflation", "debt crisis", "default", "unemployment", "tariffs"],
+        "medium": ["growth", "pmi", "gdp", "consumer confidence", "trade", "manufacturing", "services"],
+        "down": ["soft landing", "disinflation", "recovery", "strong growth"]
+      },
+      "queries": [
+        { "label": "macro global", "query": "global economy inflation growth recession PMI central bank", "weight": 1.0 },
+        { "label": "actividad y consumo", "query": "consumer confidence unemployment GDP growth slowdown", "weight": 0.9 }
+      ],
+      "actions": {
+        "low": "Aprovechar estabilidad sin perder disciplina.",
+        "medium": "Distinguir fortaleza real de simple inercia economica.",
+        "high": "Evitar planes que dependan de crecimiento limpio y barato.",
+        "extreme": "Priorizar liquidez, flexibilidad y decisiones reversibles."
+      }
+    },
+    {
+      "id": "iecv",
+      "sigla": "IECv",
+      "nombre": "Indice de Energia y Coste de Vida",
+      "categoria": "energia",
+      "base": 58,
+      "keywords": {
+        "high": ["oil price", "gas price", "energy crisis", "fuel", "electricity prices", "brent", "wti", "food prices", "cost of living"],
+        "medium": ["opec", "supply", "refinery", "lng", "diesel", "gasoline", "power prices"],
+        "down": ["oil falls", "lower energy prices", "price cap", "supply increase"]
+      },
+      "queries": [
+        { "label": "energia", "query": "oil price OR gas price OR energy crisis OR OPEC OR Brent", "weight": 1.1 },
+        { "label": "coste de vida", "query": "cost of living OR food prices OR electricity prices OR gasoline prices", "weight": 1.0 }
+      ],
+      "actions": {
+        "low": "No relajar completamente el presupuesto: la energia cambia deprisa.",
+        "medium": "Revisar costes domesticos y empresariales con realismo.",
+        "high": "No construir planes familiares o empresariales con energia barata como supuesto central.",
+        "extreme": "Proteger caja ante energia, transporte y alimentos."
+      }
+    },
+    {
+      "id": "icsl",
+      "sigla": "ICSL",
+      "nombre": "Indice de Logistica y Suministro",
+      "categoria": "suministro",
+      "base": 57,
+      "keywords": {
+        "high": ["supply chain disruption", "port closure", "shipping delays", "freight rates", "tanker", "red sea", "hormuz", "canal", "container"],
+        "medium": ["logistics", "shipping", "maritime", "port", "supply chain", "insurance"],
+        "down": ["normalization", "routes reopen", "freight rates fall", "backlog clears"]
+      },
+      "queries": [
+        { "label": "logistica global", "query": "supply chain disruption OR shipping delays OR freight rates OR port closure", "weight": 1.0 },
+        { "label": "rutas maritimas", "query": "Red Sea shipping OR Hormuz shipping OR maritime insurance OR tanker routes", "weight": 1.15 }
+      ],
+      "actions": {
+        "low": "Aprovechar normalidad logistica para ordenar inventarios y plazos.",
+        "medium": "Valorar disponibilidad, plazos y redundancia como parte del coste real.",
+        "high": "Evitar prometer tiempos o costes como si la cadena fuera estable.",
+        "extreme": "Crear redundancia en proveedores, rutas y calendario."
+      }
+    },
+    {
+      "id": "imf",
+      "sigla": "IMF",
+      "nombre": "Indice Monetario-Financiero",
+      "categoria": "finanzas",
+      "base": 60,
+      "keywords": {
+        "high": ["rate hike", "bond yields", "debt", "credit stress", "banking crisis", "dollar", "liquidity", "default", "inflation expectations"],
+        "medium": ["central bank", "fed", "ecb", "rates", "yield", "treasury", "credit", "financial conditions"],
+        "down": ["rate cuts", "easing", "lower yields", "liquidity improves"]
+      },
+      "queries": [
+        { "label": "bancos centrales", "query": "Federal Reserve OR ECB OR interest rates OR inflation expectations", "weight": 1.0 },
+        { "label": "tension financiera", "query": "bond yields OR credit stress OR liquidity OR banking risk OR dollar", "weight": 1.1 }
+      ],
+      "actions": {
+        "low": "Usar la calma financiera para mejorar estructura.",
+        "medium": "Cuidar deuda, plazos y liquidez.",
+        "high": "Evitar decisiones apalancadas cuando el precio del dinero vuelve a endurecerse.",
+        "extreme": "Reducir exposicion a financiacion fragil y vencimientos incomodos."
+      }
+    },
+    {
+      "id": "icsp",
+      "sigla": "ICSP",
+      "nombre": "Indice de Clima Social",
+      "categoria": "sociedad",
+      "base": 52,
+      "keywords": {
+        "high": ["protests", "riots", "strike", "unrest", "polarization", "election violence", "cost of living crisis", "migration crisis"],
+        "medium": ["election", "social tension", "public anger", "demonstration", "trust", "inequality"],
+        "down": ["agreement", "stability", "turnout", "dialogue"]
+      },
+      "queries": [
+        { "label": "clima social", "query": "social unrest OR protests OR strikes OR polarization OR public anger", "weight": 1.0 },
+        { "label": "politica y coste de vida", "query": "election tension OR cost of living crisis OR migration crisis", "weight": 0.95 }
+      ],
+      "actions": {
+        "low": "Leer el clima social sin convertir cada anecdota en sistema.",
+        "medium": "No confundir tranquilidad aparente con estabilidad profunda.",
+        "high": "Evitar decisiones que dependan de un entorno social paciente.",
+        "extreme": "Priorizar seguridad, reputacion y capacidad de retirada."
+      }
+    },
+    {
+      "id": "ics",
+      "sigla": "ICS",
+      "nombre": "Indice de Ciberseguridad",
+      "categoria": "seguridad",
+      "base": 58,
+      "keywords": {
+        "high": ["ransomware", "cyberattack", "data breach", "critical infrastructure", "malware", "phishing", "zero-day", "hackers"],
+        "medium": ["cybersecurity", "vulnerability", "identity theft", "supply chain attack", "security alert"],
+        "down": ["patched", "arrested", "disrupted", "takedown"]
+      },
+      "queries": [
+        { "label": "ciberseguridad", "query": "ransomware OR cyberattack OR data breach OR critical infrastructure cyber", "weight": 1.15 },
+        { "label": "riesgo digital domestico", "query": "phishing OR identity theft OR malware OR password breach", "weight": 0.95 }
+      ],
+      "actions": {
+        "low": "Mantener higiene digital basica.",
+        "medium": "Revisar contrasenas, doble factor y copias de seguridad.",
+        "high": "Tratar la higiene digital como seguridad familiar y empresarial basica.",
+        "extreme": "Activar revision urgente de accesos, backups y cuentas criticas."
+      }
+    },
+    {
+      "id": "isfl",
+      "sigla": "ISFL",
+      "nombre": "Indice de Seguridad Familiar Local",
+      "categoria": "familia",
+      "base": 28,
+      "keywords": {
+        "high": ["spain inflation", "mallorca cost of living", "crime mallorca", "heat alert spain", "housing crisis spain", "tourism pressure mallorca"],
+        "medium": ["balearic islands", "mallorca", "spain economy", "family cost", "rent prices"],
+        "down": ["prices fall", "stability", "improves"]
+      },
+      "queries": [
+        { "label": "Espana y familia", "query": "Spain cost of living OR Spain inflation OR housing crisis Spain", "weight": 0.8 },
+        { "label": "Mallorca", "query": "Mallorca cost of living OR Balearic Islands economy OR Mallorca housing", "weight": 0.8 }
+      ],
+      "actions": {
+        "low": "Proteger rutinas y caja sin vivir a la defensiva.",
+        "medium": "Proteger caja, energia personal y rutinas domesticas.",
+        "high": "Reducir decisiones familiares caras o irreversibles.",
+        "extreme": "Priorizar seguridad, salud y liquidez domestica."
+      }
+    },
+    {
+      "id": "ipp",
+      "sigla": "IPP",
+      "nombre": "Indice de Presion Personal",
+      "categoria": "personal",
+      "manual": true,
+      "value": 28,
+      "level": "Baja",
+      "trend": "estable",
+      "reading": "La presion personal es baja: sigues llegando a la coyuntura con margen.",
+      "signal": "Hay capacidad de espera, lectura y seleccion de oportunidades sin urgencia excesiva.",
+      "action": "Proteger el margen y no convertir una buena posicion en precipitacion."
+    },
+    {
+      "id": "ive",
+      "sigla": "IVE",
+      "nombre": "Indice de Ventaja Estrategica",
+      "categoria": "personal",
+      "manual": true,
+      "value": 75,
+      "level": "Alto",
+      "trend": "sube",
+      "reading": "Tu sobriedad vale mas precisamente porque el mundo esta menos sobrio.",
+      "signal": "La ventaja nace de combinar criterio, paciencia, relato y ejecucion.",
+      "action": "Convertir lectura del mundo en productos, sesiones y decisiones concretas."
+    }
+  ]
+}
