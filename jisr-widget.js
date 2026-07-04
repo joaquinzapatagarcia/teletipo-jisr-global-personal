@@ -81,6 +81,7 @@
       .replace(/\bpresion\b/g, "presión")
       .replace(/\bTension\b/g, "Tensión")
       .replace(/\btension\b/g, "tensión")
+      .replace(/\bSENAL\b/g, "SEÑAL")
       .replace(/\bSenal\b/g, "Señal")
       .replace(/\bsenal\b/g, "señal")
       .replace(/\bAccion\b/g, "Acción")
@@ -181,7 +182,7 @@
           <h2 class="jisr-title" data-field="headline"></h2>
           <p class="jisr-reading" data-field="global-reading"></p>
           <div class="jisr-stats" aria-label="Resumen JISR">
-            <div class="jisr-stat"><span class="jisr-label">Tensión mundo</span><strong data-field="world-score">--</strong></div>
+            <div class="jisr-stat"><span class="jisr-label">Tensión global</span><strong data-field="world-score">--</strong></div>
             <div class="jisr-stat"><span class="jisr-label">Índice más alto</span><strong data-field="highest-score">--</strong></div>
             <div class="jisr-stat"><span class="jisr-label">Presión</span><strong data-field="ipp-score">--</strong></div>
             <div class="jisr-stat"><span class="jisr-label">Ventaja</span><strong data-field="ive-score">--</strong></div>
