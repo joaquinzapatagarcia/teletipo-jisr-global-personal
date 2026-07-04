@@ -1,7 +1,7 @@
 {
   "proyecto": "TELETIPO JISR GLOBAL PERSONAL",
   "version": "0.2",
-  "actualizado": "2026-07-04T13:50:27.586Z",
+  "actualizado": "2026-07-04T14:02:18.521Z",
   "timezone": "Europe/Madrid",
   "modo_actualizacion": "automatico_publico_reglas",
   "escala": {
@@ -10,10 +10,10 @@
     "lectura": "0 equivale a riesgo o tension muy baja; 100 equivale a riesgo o tension extrema."
   },
   "titular": "La jornada permite decidir, pero no permite dormirse.",
-  "lectura_jisr": "La presion principal viene de IGP (66). La segunda senal relevante es IMF (62). Posicion personal: IPP 29 e IVE 78; presion baja y ventaja siguen siendo mas importantes que velocidad.",
+  "lectura_jisr": "La presion principal viene de IGP (65). La segunda senal relevante es IMF (61). Posicion personal: IPP 29 e IVE 77; presion baja y ventaja siguen siendo mas importantes que velocidad.",
   "posicion_personal": {
     "ipp": 29,
-    "ive": 78,
+    "ive": 77,
     "resumen": "Presion personal baja y ventaja estrategica alta por sobriedad, criterio y capacidad de reaccion."
   },
   "perfil_personal_resumen": {
@@ -27,6 +27,13 @@
       "lookback": "1d",
       "maxRecordsPerQuery": 20,
       "minimumArticlesForHighConfidence": 18,
+      "minimumArticlesForMovement": 4,
+      "maxLowEvidenceMove": 1,
+      "smoothing": {
+        "newSignalWeight": 0.3,
+        "shockNewSignalWeight": 0.45,
+        "shockDelta": 18
+      },
       "notes": "Primera version con fuentes abiertas y reglas JISR. Las puntuaciones son soporte de criterio, no dato financiero ni recomendacion."
     },
     "total_evidencias": 0,
@@ -37,22 +44,22 @@
       "id": "igp",
       "sigla": "IGP",
       "nombre": "Indice Geopolitico",
-      "valor": 66,
+      "valor": 65,
       "nivel": "Alto",
-      "tendencia": "baja",
+      "tendencia": "estable",
       "confianza": 0.35,
       "categoria": "mundo",
       "lectura": "Alto. Hay friccion suficiente para condicionar decisiones, aunque sin ruptura general del sistema.",
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Mantener prudencia antes de asumir que el riesgo geopolitico ha desaparecido.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "ieg",
       "sigla": "IEG",
       "nombre": "Indice Economico Global",
-      "valor": 56,
+      "valor": 55,
       "nivel": "Alto",
       "tendencia": "estable",
       "confianza": 0.35,
@@ -61,13 +68,13 @@
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Evitar planes que dependan de crecimiento limpio y barato.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "iecv",
       "sigla": "IECv",
       "nombre": "Indice de Energia y Coste de Vida",
-      "valor": 60,
+      "valor": 59,
       "nivel": "Alto",
       "tendencia": "estable",
       "confianza": 0.35,
@@ -76,28 +83,28 @@
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "No construir planes familiares o empresariales con energia barata como supuesto central.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "icsl",
       "sigla": "ICSL",
       "nombre": "Indice de Logistica y Suministro",
-      "valor": 60,
+      "valor": 59,
       "nivel": "Alto",
-      "tendencia": "baja",
+      "tendencia": "estable",
       "confianza": 0.35,
       "categoria": "suministro",
       "lectura": "Alto. Hay friccion suficiente para condicionar decisiones, aunque sin ruptura general del sistema.",
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Evitar prometer tiempos o costes como si la cadena fuera estable.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "imf",
       "sigla": "IMF",
       "nombre": "Indice Monetario-Financiero",
-      "valor": 62,
+      "valor": 61,
       "nivel": "Alto",
       "tendencia": "estable",
       "confianza": 0.35,
@@ -106,28 +113,28 @@
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Evitar decisiones apalancadas cuando el precio del dinero vuelve a endurecerse.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "icsp",
       "sigla": "ICSP",
       "nombre": "Indice de Clima Social",
-      "valor": 55,
+      "valor": 54,
       "nivel": "Alto",
-      "tendencia": "baja",
+      "tendencia": "estable",
       "confianza": 0.35,
       "categoria": "sociedad",
       "lectura": "Alto. Hay friccion suficiente para condicionar decisiones, aunque sin ruptura general del sistema.",
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Evitar decisiones que dependan de un entorno social paciente.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "ics",
       "sigla": "ICS",
       "nombre": "Indice de Ciberseguridad",
-      "valor": 60,
+      "valor": 59,
       "nivel": "Alto",
       "tendencia": "estable",
       "confianza": 0.35,
@@ -136,7 +143,7 @@
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Tratar la higiene digital como seguridad familiar y empresarial basica.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "isfl",
@@ -151,7 +158,7 @@
       "senal": "Fuentes publicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Proteger rutinas y caja sin vivir a la defensiva.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente."
+      "motivo_cambio": "Lectura automatica desde fuentes abiertas: 0 articulos utiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "ipp",
@@ -172,16 +179,16 @@
       "id": "ive",
       "sigla": "IVE",
       "nombre": "Indice de Ventaja Estrategica",
-      "valor": 78,
+      "valor": 77,
       "nivel": "Muy alto",
       "tendencia": "estable",
       "confianza": 1,
       "categoria": "personal",
-      "lectura": "ventaja estrategica alta. Ajuste exterior: +3 puntos.",
+      "lectura": "ventaja estrategica alta. Ajuste exterior: +2 puntos.",
       "senal": "criterio | escritura | intuicion estrategica | trato personal | cultura",
       "accion_jisr": "Convertir ventaja en prospeccion, producto y agenda profesional activa.",
       "evidencia": [],
-      "motivo_cambio": "Base personal 75; ajuste por necesidad exterior de criterio +3."
+      "motivo_cambio": "Base personal 75; ajuste por necesidad exterior de criterio +2."
     }
   ]
 }
