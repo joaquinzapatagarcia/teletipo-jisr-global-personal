@@ -1,7 +1,7 @@
 {
   "proyecto": "TELETIPO GLOBAL PERSONAL INDEXES",
   "version": "0.2",
-  "actualizado": "2026-07-04T20:54:06.954Z",
+  "actualizado": "2026-07-04T21:03:12.117Z",
   "timezone": "Europe/Madrid",
   "modo_actualizacion": "automático_público_reglas",
   "escala": {
@@ -65,10 +65,10 @@
       "confianza": 0.35,
       "categoria": "economia",
       "lectura": "Alto. Hay fricción suficiente para condicionar decisiones, aunque sin ruptura general del sistema.",
-      "senal": "Pocas señales nuevas en fuentes abiertas durante la ventana analizada.",
+      "senal": "Fuentes públicas parcialmente no disponibles; se mantiene lectura prudente con datos anteriores.",
       "accion_jisr": "Evitar planes que dependan de crecimiento limpio y barato.",
       "evidencia": [],
-      "motivo_cambio": "Lectura automática desde fuentes abiertas: 0 artículos útiles, 0 incidencias de fuente; modo baja_evidencia."
+      "motivo_cambio": "Lectura automática desde fuentes abiertas: 0 artículos útiles, 2 incidencias de fuente; modo baja_evidencia."
     },
     {
       "id": "iecv",
