@@ -24,7 +24,7 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Actualizar indices JISR
+      - name: Ejecutar agente JISR
         run: node scripts/update-jisr-indices.mjs
 
       - name: Validar JSON
