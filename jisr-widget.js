@@ -60,7 +60,7 @@
       slot.setHours(20, 7, 0, 0);
     }
 
-    return `${formatDate(slot)} · ${String(slot.getHours()).padStart(2, "0")}:${String(slot.getMinutes()).padStart(2, "0")}`;
+    return `${formatDate(slot)} · Edición ${String(slot.getHours()).padStart(2, "0")}:${String(slot.getMinutes()).padStart(2, "0")}`;
   }
 
   function withAccents(value) {
@@ -178,7 +178,7 @@
           </div>
         </div>
         <article aria-live="polite" aria-atomic="true">
-          <div class="jisr-meta"><span data-field="status">Última actualización</span><span>|</span><span data-field="updated">04/07/2026 · 08:07</span><span>|</span><span data-field="position">IPP 28 · IVE 75</span></div>
+          <div class="jisr-meta"><span data-field="status">Última lectura disponible</span><span>|</span><span data-field="updated">04/07/2026 · Edición 08:07</span><span>|</span><span data-field="position">IPP 28 · IVE 75</span></div>
           <h2 class="jisr-title" data-field="headline"></h2>
           <p class="jisr-reading" data-field="global-reading"></p>
           <div class="jisr-stats" aria-label="Resumen JISR">
@@ -196,6 +196,8 @@
             <div>
               <h3 class="jisr-index-name" data-field="selected-name">Índice JISR</h3>
               <p class="jisr-index-reading" data-field="selected-reading"></p>
+              <p class="jisr-note"><span class="jisr-label">Motivo del día:</span> <span data-field="selected-motive">--</span></p>
+              <p class="jisr-note"><span class="jisr-label">Fuentes:</span> <span data-field="selected-sources">--</span></p>
               <p class="jisr-note"><span class="jisr-label">Señal:</span> <span data-field="selected-signal">--</span></p>
               <p class="jisr-note"><span class="jisr-label">Acción JISR:</span> <span data-field="selected-action">--</span></p>
             </div>
@@ -221,7 +223,7 @@
     const item = indices[selectedIndex] || indices[0];
     const score = clampScore(item.valor);
 
-    fields.status.textContent = sourceLabel || "Última actualización";
+    fields.status.textContent = sourceLabel || "Última lectura disponible";
     fields.updated.textContent = formatScheduledUpdate(data.actualizado);
     fields.position.textContent = `IPP ${ipp ? clampScore(ipp.valor) : "--"} · IVE ${ive ? clampScore(ive.valor) : "--"}`;
     fields.headline.textContent = withAccents(data.titular || "Tablero de Índices JISR");
@@ -237,6 +239,8 @@
     fields["selected-trend"].textContent = withAccents(`Tendencia ${item.tendencia || "sin dato"}`);
     fields["selected-name"].textContent = withAccents(item.nombre || "Índice JISR");
     fields["selected-reading"].textContent = withAccents(item.lectura || "");
+    fields["selected-motive"].textContent = withAccents(item.motivo_dia || item.motivo_cambio || "Sin motivo específico en esta lectura.");
+    fields["selected-sources"].textContent = withAccents(item.fuentes_linea || data.fuentes_resumen?.linea || "Señales observadas en fuentes abiertas vía GDELT.");
     fields["selected-signal"].textContent = withAccents(item.senal || "Sin señal definida.");
     fields["selected-action"].textContent = withAccents(item.accion_jisr || "Sin acción definida.");
 
@@ -258,7 +262,7 @@
       const response = await fetch(`${JSON_URL}?v=${Date.now()}`);
       if (!response.ok) throw new Error("No se pudo leer el JSON");
       data = await response.json();
-      render(root, "Última actualización");
+      render(root, "Última lectura disponible");
     } catch (error) {
       data = fallbackData;
       render(root, "Modo prototipo");
@@ -275,7 +279,7 @@
     root.dataset.jisrStarted = "true";
     injectStyle();
     root.innerHTML = buildHtml();
-    render(root, "Última actualización");
+    render(root, "Última lectura disponible");
 
     root.addEventListener("click", (event) => {
       const action = event.target.closest("[data-action]");
