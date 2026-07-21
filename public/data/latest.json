@@ -2,28 +2,28 @@
   "proyecto": "TELETIPO GLOBAL PERSONAL INDEXES",
   "version": "1.0",
   "timezone": "Europe/Madrid",
-  "ultima_ejecucion": "2026-07-21T08:47:33.868Z",
-  "ultima_actualizacion_con_datos": null,
+  "ultima_ejecucion": "2026-07-21T19:46:05.176Z",
+  "ultima_actualizacion_con_datos": "2026-07-21T19:46:05.176Z",
   "edicion": {
-    "id": "2026-07-21-0807",
+    "id": "2026-07-21-2007",
     "date": "2026-07-21",
-    "slot": "08:07"
+    "slot": "20:07"
   },
-  "estado_publicacion": "conservada",
+  "estado_publicacion": "actualizada",
   "estado_fuentes": {
-    "estado": "degradadas",
+    "estado": "parciales",
     "consultas_totales": 8,
-    "consultas_correctas": 0,
-    "consultas_fallidas": 8,
-    "evidencias_totales": 0
+    "consultas_correctas": 2,
+    "consultas_fallidas": 6,
+    "evidencias_totales": 40
   },
   "escala": {
     "min": 0,
     "max": 100,
     "lectura": "0 equivale a tensión muy baja; 100 equivale a tensión extrema."
   },
-  "titular": "Edición conservada: faltan señales externas verificables.",
-  "lectura_jisr": "El tablero conserva la última lectura validada.",
+  "titular": "El centro de gravedad está en IGP (62).",
+  "lectura_jisr": "La presión principal procede de IGP. IPP 28 e IVE 75: proteger margen y convertir criterio en ventaja.",
   "posicion_personal": {
     "ipp": 28,
     "ive": 75,
@@ -50,17 +50,48 @@
       "id": "ieg",
       "sigla": "IEG",
       "nombre": "Índice Económico Global",
-      "valor": 55,
+      "valor": 57,
       "nivel": "Alto",
       "tendencia": "estable",
-      "confianza": 0,
+      "confianza": 0.92,
       "categoria": "economia",
-      "lectura": "Lectura conservada por falta de datos nuevos.",
-      "senal": "Sin señales nuevas verificables.",
+      "lectura": "Alto. La señal dominante procede de: Trump imposes 50 % tariffs on Canadian goods , citing disputes over autos , alcohol and cheese - Boston News , Weather , Sports",
+      "senal": "Trump imposes 50 % tariffs on Canadian goods , citing disputes over autos , alcohol and cheese - Boston News , Weather , Sports | Trump imposes 50 percent tariffs on Canadian goods , citing disputes over autos , alcohol and cheese | Trump imposes 50 % tariffs on Canadian goods , citing disputes",
       "accion_jisr": "Evitar planes que dependan de crecimiento limpio y barato.",
-      "evidencia": [],
-      "motivo_dia": "Edición conservada.",
-      "fuentes_linea": "Fuentes externas temporalmente degradadas."
+      "evidencia": [
+        {
+          "titulo": "Trump imposes 50 % tariffs on Canadian goods , citing disputes over autos , alcohol and cheese - Boston News , Weather , Sports",
+          "fuente": "whdh.com",
+          "url": "https://whdh.com/news/trump-imposes-50-tariffs-on-canadian-goods-citing-disputes-over-autos-alcohol-and-cheese/",
+          "fecha": "20260720T233000Z"
+        },
+        {
+          "titulo": "Trump imposes 50 percent tariffs on Canadian goods , citing disputes over autos , alcohol and cheese",
+          "fuente": "arabnews.com",
+          "url": "https://www.arabnews.com/node/2651681/world",
+          "fecha": "20260721T000000Z"
+        },
+        {
+          "titulo": "Trump imposes 50 % tariffs on Canadian goods , citing disputes",
+          "fuente": "thehindubusinessline.com",
+          "url": "https://www.thehindubusinessline.com/news/world/trump-imposes-50-tariffs-on-canadian-goods-citing-disputes-over-autos-alcohol-and-cheese/article71247845.ece",
+          "fecha": "20260721T043000Z"
+        },
+        {
+          "titulo": "Trump to impose 50 % tariffs on most Canadian goods , invoking the Section 338  nuclear option  ",
+          "fuente": "fortune.com",
+          "url": "https://fortune.com/2026/07/20/trump-tariffs-canada-50-percent-section-338-nuclear-option-inflation-usmca/",
+          "fecha": "20260721T003000Z"
+        },
+        {
+          "titulo": "Trump imposes 50 percent tariff on Canadian goods",
+          "fuente": "bostonglobe.com",
+          "url": "https://www.bostonglobe.com/2026/07/20/nation/trump-canada-tariffs/",
+          "fecha": "20260720T231500Z"
+        }
+      ],
+      "motivo_dia": "5 evidencias útiles; cálculo amortiguado.",
+      "fuentes_linea": "20 fuentes distintas vía GDELT."
     },
     {
       "id": "iecv",
@@ -98,17 +129,48 @@
       "id": "imf",
       "sigla": "IMF",
       "nombre": "Índice Monetario-Financiero",
-      "valor": 60,
+      "valor": 61,
       "nivel": "Alto",
       "tendencia": "estable",
-      "confianza": 0,
+      "confianza": 0.92,
       "categoria": "finanzas",
-      "lectura": "Lectura conservada por falta de datos nuevos.",
-      "senal": "Sin señales nuevas verificables.",
+      "lectura": "Alto. La señal dominante procede de: US Treasury Has Bought Back Almost $200 Billion in Debt This Year",
+      "senal": "US Treasury Has Bought Back Almost $200 Billion in Debt This Year | JustMarkets Analyzes How Central Bank Policy Influences the Currency Market | Kevin Warsh Made His First Big Move as Fed Chair , and the Bond Market Has Taken Action -- but Most Investors Missed It",
       "accion_jisr": "Evitar decisiones apalancadas cuando el dinero se encarece.",
-      "evidencia": [],
-      "motivo_dia": "Edición conservada.",
-      "fuentes_linea": "Fuentes externas temporalmente degradadas."
+      "evidencia": [
+        {
+          "titulo": "US Treasury Has Bought Back Almost $200 Billion in Debt This Year",
+          "fuente": "theepochtimes.com",
+          "url": "https://www.theepochtimes.com/business/us-treasury-has-bought-back-almost-200-billion-in-debt-this-year-6064605",
+          "fecha": "20260720T210000Z"
+        },
+        {
+          "titulo": "JustMarkets Analyzes How Central Bank Policy Influences the Currency Market",
+          "fuente": "manilatimes.net",
+          "url": "https://www.manilatimes.net/2026/07/21/tmt-newswire/pr-newswire/justmarkets-analyzes-how-central-bank-policy-influences-the-currency-market/2388199",
+          "fecha": "20260721T100000Z"
+        },
+        {
+          "titulo": "Kevin Warsh Made His First Big Move as Fed Chair , and the Bond Market Has Taken Action -- but Most Investors Missed It",
+          "fuente": "fool.com",
+          "url": "https://www.fool.com/investing/2026/07/21/kevin-warsh-big-move-fed-bond-market-take-action/?source=iedfolrf0000001",
+          "fecha": "20260721T091500Z"
+        },
+        {
+          "titulo": "Global Market : Japan Takaichi unveils growth blueprint , reiterates investment push amid bond market concerns",
+          "fuente": "economictimes.indiatimes.com",
+          "url": "https://economictimes.indiatimes.com/markets/us-stocks/news/global-market-japans-takaichi-unveils-growth-blueprint-reiterates-investment-push-amid-bond-market-concerns/articleshow/132530259.cms",
+          "fecha": "20260721T074500Z"
+        },
+        {
+          "titulo": "Japan bond jitters overshadow Takaichi debut economic blueprint",
+          "fuente": "freemalaysiatoday.com",
+          "url": "https://www.freemalaysiatoday.com/category/business/2026/07/21/japan-bond-jitters-overshadow-takaichis-debut-economic-blueprint",
+          "fecha": "20260721T051500Z"
+        }
+      ],
+      "motivo_dia": "5 evidencias útiles; cálculo amortiguado.",
+      "fuentes_linea": "12 fuentes distintas vía GDELT."
     },
     {
       "id": "icsp",
