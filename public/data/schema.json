@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://joaquinzapatagarcia.github.io/teletipo-jisr-global-personal/public/data/schema.json",
+  "title": "Salida pública del Teletipo JISR Global Personal",
+  "type": "object",
+  "required": ["proyecto", "version", "ultima_ejecucion", "edicion", "estado_publicacion", "estado_fuentes", "indices"],
+  "properties": {
+    "estado_publicacion": {"enum": ["actualizada", "conservada"]},
+    "estado_fuentes": {
+      "type": "object",
+      "required": ["estado", "consultas_totales", "consultas_correctas", "consultas_fallidas", "evidencias_totales"],
+      "properties": {"estado": {"enum": ["operativas", "parciales", "degradadas", "sin_senales_nuevas"]}}
+    },
+    "indices": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["id", "sigla", "nombre", "valor", "nivel", "tendencia", "confianza", "categoria"],
+        "properties": {
+          "valor": {"type": "number", "minimum": 0, "maximum": 100},
+          "confianza": {"type": "number", "minimum": 0, "maximum": 1}
+        }
+      }
+    }
+  }
+}

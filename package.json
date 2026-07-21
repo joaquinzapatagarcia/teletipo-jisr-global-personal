@@ -1,0 +1,14 @@
+{
+  "name": "teletipo-jisr-global-personal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "update": "node scripts/update-indices.mjs",
+    "validate": "node scripts/validate-output.mjs public/data/latest.json",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

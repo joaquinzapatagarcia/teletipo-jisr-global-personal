@@ -1,0 +1,64 @@
+{
+  "project": "TELETIPO GLOBAL PERSONAL INDEXES",
+  "dataFile": "public/data/latest.json",
+  "timezone": "Europe/Madrid",
+  "sourcePolicy": {
+    "lookback": "1d",
+    "maxRecordsPerQuery": 20,
+    "requestDelayMs": 5500,
+    "minimumArticlesForMovement": 4,
+    "maxLowEvidenceMove": 1,
+    "newSignalWeight": 0.3,
+    "shockSignalWeight": 0.45
+  },
+  "indices": [
+    {
+      "id": "igp", "sigla": "IGP", "nombre": "Índice Geopolítico", "categoria": "mundo", "base": 62,
+      "query": "(\"geopolitical risk\" OR war OR sanctions OR \"military escalation\" OR Hormuz OR \"Red Sea\") sourcelang:english",
+      "keywords": {"high":["war","missile","attack","invasion","sanctions","nuclear","escalation","hormuz"],"medium":["military","naval","security","border"],"down":["truce","agreement","de-escalation","peace talks"]},
+      "actions": {"low":"Mantener vigilancia sin sobrerreaccionar.","medium":"Separar ruido diplomático de riesgo operativo.","high":"Mantener prudencia antes de asumir que el riesgo geopolítico ha desaparecido.","extreme":"Reducir decisiones vulnerables a un shock geopolítico."}
+    },
+    {
+      "id": "ieg", "sigla": "IEG", "nombre": "Índice Económico Global", "categoria": "economia", "base": 55,
+      "query": "(recession OR slowdown OR inflation OR stagflation OR unemployment OR tariffs OR PMI) sourcelang:english",
+      "keywords": {"high":["recession","slowdown","inflation","stagflation","debt crisis","default","unemployment","tariffs"],"medium":["pmi","gdp","trade","manufacturing"],"down":["soft landing","disinflation","recovery","strong growth"]},
+      "actions": {"low":"Aprovechar estabilidad sin perder disciplina.","medium":"Distinguir fortaleza real de simple inercia económica.","high":"Evitar planes que dependan de crecimiento limpio y barato.","extreme":"Priorizar liquidez, flexibilidad y decisiones reversibles."}
+    },
+    {
+      "id": "iecv", "sigla": "IECv", "nombre": "Índice de Energía y Coste de Vida", "categoria": "energia", "base": 58,
+      "query": "(\"oil price\" OR \"gas price\" OR \"energy crisis\" OR OPEC OR Brent OR \"cost of living\") sourcelang:english",
+      "keywords": {"high":["oil price","gas price","energy crisis","fuel","electricity prices","food prices","cost of living"],"medium":["opec","supply","refinery","lng","diesel"],"down":["oil falls","lower energy prices","supply increase"]},
+      "actions": {"low":"No relajar completamente el presupuesto: la energía cambia deprisa.","medium":"Revisar costes domésticos y empresariales con realismo.","high":"No construir planes con energía barata como supuesto central.","extreme":"Proteger caja ante energía, transporte y alimentos."}
+    },
+    {
+      "id": "icsl", "sigla": "ICSL", "nombre": "Índice de Logística y Suministro", "categoria": "suministro", "base": 57,
+      "query": "(\"supply chain disruption\" OR \"shipping delays\" OR \"freight rates\" OR \"port closure\" OR \"Red Sea shipping\") sourcelang:english",
+      "keywords": {"high":["supply chain disruption","port closure","shipping delays","freight rates","red sea","hormuz"],"medium":["logistics","shipping","maritime","port","insurance"],"down":["normalization","routes reopen","freight rates fall"]},
+      "actions": {"low":"Aprovechar la normalidad logística para ordenar plazos.","medium":"Valorar disponibilidad, plazos y redundancia.","high":"Evitar prometer tiempos o costes como si la cadena fuera estable.","extreme":"Crear redundancia en proveedores, rutas y calendario."}
+    },
+    {
+      "id": "imf", "sigla": "IMF", "nombre": "Índice Monetario-Financiero", "categoria": "finanzas", "base": 60,
+      "query": "(\"Federal Reserve\" OR ECB OR \"interest rates\" OR \"bond yields\" OR \"credit stress\" OR liquidity) sourcelang:english",
+      "keywords": {"high":["rate hike","bond yields","debt","credit stress","banking crisis","liquidity","default"],"medium":["central bank","fed","ecb","rates","treasury","credit"],"down":["rate cuts","easing","lower yields","liquidity improves"]},
+      "actions": {"low":"Usar la calma financiera para mejorar estructura.","medium":"Cuidar deuda, plazos y liquidez.","high":"Evitar decisiones apalancadas cuando el dinero se encarece.","extreme":"Reducir exposición a financiación frágil."}
+    },
+    {
+      "id": "icsp", "sigla": "ICSP", "nombre": "Índice de Clima Social", "categoria": "sociedad", "base": 52,
+      "query": "(\"social unrest\" OR protests OR strikes OR polarization OR \"public anger\" OR \"cost of living crisis\") sourcelang:english",
+      "keywords": {"high":["protests","riots","strike","unrest","polarization","election violence"],"medium":["election","social tension","public anger","demonstration","inequality"],"down":["agreement","stability","dialogue"]},
+      "actions": {"low":"Leer el clima social sin convertir cada anécdota en sistema.","medium":"No confundir tranquilidad aparente con estabilidad profunda.","high":"Evitar decisiones que dependan de un entorno social paciente.","extreme":"Priorizar seguridad, reputación y capacidad de retirada."}
+    },
+    {
+      "id": "ics", "sigla": "ICS", "nombre": "Índice de Ciberseguridad", "categoria": "seguridad", "base": 58,
+      "query": "(ransomware OR cyberattack OR \"data breach\" OR \"critical infrastructure\" OR phishing OR malware) sourcelang:english",
+      "keywords": {"high":["ransomware","cyberattack","data breach","critical infrastructure","malware","zero-day"],"medium":["cybersecurity","vulnerability","identity theft","security alert"],"down":["patched","arrested","disrupted","takedown"]},
+      "actions": {"low":"Mantener higiene digital básica.","medium":"Revisar contraseñas, doble factor y copias de seguridad.","high":"Tratar la higiene digital como seguridad familiar y empresarial.","extreme":"Revisar urgentemente accesos, copias y cuentas críticas."}
+    },
+    {
+      "id": "isfl", "sigla": "ISFL", "nombre": "Índice de Seguridad Familiar Local", "categoria": "familia", "base": 28,
+      "query": "(Mallorca OR Baleares OR \"Islas Baleares\") (inflación OR vivienda OR alquiler OR calor OR seguridad OR turismo) sourcelang:spanish",
+      "keywords": {"high":["inflación","crisis de vivienda","ola de calor","delito","encarecimiento"],"medium":["mallorca","baleares","alquiler","coste de vida","turismo"],"down":["bajan los precios","estabilidad","mejora"]},
+      "actions": {"low":"Proteger rutinas y caja sin vivir a la defensiva.","medium":"Proteger caja, energía personal y rutinas domésticas.","high":"Reducir decisiones familiares caras o irreversibles.","extreme":"Priorizar seguridad, salud y liquidez doméstica."}
+    }
+  ]
+}
