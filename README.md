@@ -1,47 +1,55 @@
-# Teletipo JISR Global Personal - Automatizacion
+# TELETIPO GLOBAL PERSONAL INDEXES
 
-## Que es cada pieza
+Cuadro de mando JISR que transforma señales abiertas del mundo en diez índices de apoyo al criterio personal, familiar y profesional.
 
-| Pieza | Archivo | Funcion |
-|---|---|---|
-| Datos publicados | `jisr-indices-global-personal.json` | Es el archivo que lee el HTML de Carrd. |
-| Criterios del agente | `jisr-agent-config.json` | Define indices, senales, fuentes y acciones JISR. |
-| Perfil personal | `jisr-personal-profile.json` | Foto de vida, ubicacion, presion personal y ventaja estrategica. |
-| Agente | `scripts/update-jisr-indices.mjs` | Lee fuentes abiertas, aplica reglas y reescribe el JSON. |
-| Reloj | `.github/workflows/update-jisr-global.yml` | Ejecuta el agente cada dia a las 8:00 en Europe/Madrid. |
-| Visualizacion | `teletipo-jisr-global-personal.html` | Muestra el JSON en Carrd. |
-
-## Flujo
+No utiliza IA automática ni APIs de pago. La cadena es:
 
 ```text
-Fuentes abiertas
-  + perfil personal JISR
-  -> scripts/update-jisr-indices.mjs
-  -> jisr-indices-global-personal.json
-  -> GitHub Pages
-  -> Carrd
+GDELT → reglas transparentes → validación → JSON público → widget Carrd
 ```
 
-## Primera version
+## Estado operativo
 
-Esta version no necesita claves privadas ni API de pago. Usa fuentes abiertas consultadas desde el propio GitHub Action y una puntuacion basada en reglas.
+- Ediciones previstas: **08:07 y 20:07**, zona `Europe/Madrid`.
+- GitHub Actions puede iniciar una ejecución con algunos minutos de retraso.
+- Si no existen datos nuevos verificables, la edición se conserva y el widget lo declara.
+- El repositorio público no contiene el perfil personal detallado.
+- Las cifras son soporte de criterio, no datos financieros ni recomendaciones.
 
-La automatizacion tiene tambien `workflow_dispatch`, asi que se puede ejecutar manualmente desde la pestaña Actions de GitHub cuando quieras probarla sin esperar a las 8:00.
+## Estructura
 
-## Como activarlo
+| Ruta | Función |
+|---|---|
+| `config/indices.json` | Índices, consultas, palabras y reglas. |
+| `config/personal-position.public.json` | Únicamente bases públicas de IPP/IVE. |
+| `scripts/update-indices.mjs` | Consulta GDELT de forma secuencial y calcula la edición. |
+| `scripts/validate-output.mjs` | Comprueba integridad, rangos y ausencia de campos privados. |
+| `public/data/latest.json` | Última lectura que consume Carrd. |
+| `public/jisr-widget.js` | Visualización canónica. |
+| `public/carrd-loader.html` | Código recomendado para incrustar en Carrd. |
+| `tests/` | Pruebas de consultas, puntuación y salida. |
+| `docs/` | Arquitectura, metodología, seguridad y cambios. |
 
-1. Sube estos archivos al repositorio de GitHub Pages del teletipo JISR Global Personal.
-2. Comprueba que GitHub Pages publica `jisr-indices-global-personal.json`.
-3. En GitHub, entra en `Settings -> Actions -> General`.
-4. Verifica que los workflows pueden escribir en el repositorio.
-5. Entra en `Actions -> Actualizar Teletipo JISR Global Personal`.
-6. Pulsa `Run workflow` para probar la primera ejecucion manual.
-7. Si el JSON cambia y se publica, Carrd lo mostrara al cargar o refrescar.
+`jisr-widget.js` en la raíz es solo un puente para el Carrd instalado antes de esta reorganización.
 
-## Ajustes futuros
+## Comandos
 
-- Añadir una segunda ejecucion a las 20:00.
-- Añadir fuentes de pago.
-- Añadir una capa de IA mediante una clave privada guardada como secreto de GitHub.
-- Separar informe de mañana y cierre de jornada.
-- Guardar historico diario en otro JSON.
+```bash
+npm test
+npm run validate
+npm run update
+```
+
+Para probar sin consultar GDELT:
+
+```bash
+JISR_OFFLINE=1 JISR_DRY_RUN=1 npm run update
+```
+
+## Privacidad
+
+La salida pública contiene solo valores y resúmenes inocuos. Un perfil privado futuro debe mantenerse fuera de Git o suministrarse mediante un secreto del repositorio. La eliminación del archivo antiguo de la rama actual no lo borra del historial: véase `docs/SECURITY.md`.
+
+## Carrd
+
+El código canónico está en `public/carrd-loader.html`. El cargador anterior seguirá funcionando mediante el puente raíz, por lo que la integración no exige un cambio inmediato en Carrd.
