@@ -60,6 +60,8 @@ Cada lectura válida se archiva por año, mes y franja. El histórico publica de
 
 Si existe el secreto `TWELVE_DATA_API_KEY`, el motor escribe cotizaciones en `market-latest.json` bajo `modo_sombra`: informa, pero no modifica IGP, IEG, IECv, ICSL, IMF, ICSP, ICS, ISFL, IPP ni IVE. Si falta la clave, declara `canal_en_preparacion`.
 
+La recalibración BIG4 puede suministrarse mediante el secreto `JISR_PERSONAL_POSITION_JSON` con el formato `{"ipp":31,"ive":80}`. Solo se publican los resultados finales; la base y sus dimensiones permanecen privadas.
+
 ## Carrd
 
 El código canónico está en `public/carrd-loader.html`. El cargador anterior seguirá funcionando mediante el puente raíz, por lo que la integración no exige un cambio inmediato en Carrd.
