@@ -185,7 +185,17 @@ export function validatePublicOutput(data) {
 
 export async function run(now = new Date()) {
   const config = await readJson("config/indices.json");
-  const position = await readJson("config/personal-position.public.json");
+  const publicPosition = await readJson("config/personal-position.public.json");
+  let position = publicPosition;
+  if (process.env.JISR_PERSONAL_POSITION_JSON) {
+    try {
+      const privatePosition = JSON.parse(process.env.JISR_PERSONAL_POSITION_JSON);
+      position = {
+        ipp: {...publicPosition.ipp, base:clamp(privatePosition.ipp)},
+        ive: {...publicPosition.ive, base:clamp(privatePosition.ive)}
+      };
+    } catch { console.warn("JISR_PERSONAL_POSITION_JSON inválido; se usa la base pública."); }
+  }
   const previous = await readJson(config.dataFile, {indices: []});
   const sourceCache = await readJson("public/data/source-cache.json", {});
   const previousById = new Map((previous.indices || []).map((item) => [item.id, item]));
@@ -216,8 +226,8 @@ export async function run(now = new Date()) {
   const ippValue = clamp(position.ipp.base + Math.max(-2, Math.min(6, Math.round((average - 55) / 8))));
   const iveValue = clamp(position.ive.base + Math.max(-2, Math.min(5, Math.round((average - 50) / 10))) - Math.max(0, Math.round((ippValue - 40) / 6)));
   const personal = [
-    {id:"ipp",sigla:"IPP",nombre:"Índice de Presión Personal",valor:ippValue,nivel:level(ippValue,true),tendencia:trend(previousById.get("ipp")?.valor ?? position.ipp.base,ippValue),confianza:1,categoria:"personal",lectura:position.ipp.summary,senal:"Posición personal revisada de forma manual y combinada con el contexto exterior.",accion_jisr:"Proteger margen, salud, foco y estabilidad familiar.",evidencia:[],motivo_dia:`Base manual ${position.ipp.base}; ajuste exterior ${ippValue-position.ipp.base >= 0 ? "+" : ""}${ippValue-position.ipp.base}.`,fuentes_linea:"Base personal pública mínima; sin datos sensibles."},
-    {id:"ive",sigla:"IVE",nombre:"Índice de Ventaja Estratégica",valor:iveValue,nivel:level(iveValue),tendencia:trend(previousById.get("ive")?.valor ?? position.ive.base,iveValue),confianza:1,categoria:"personal",lectura:position.ive.summary,senal:"La necesidad de criterio aumenta cuando el entorno gana complejidad.",accion_jisr:"Convertir ventaja en producto, prospección y agenda activa.",evidencia:[],motivo_dia:`Base manual ${position.ive.base}; ajuste exterior ${iveValue-position.ive.base >= 0 ? "+" : ""}${iveValue-position.ive.base}.`,fuentes_linea:"Base personal pública mínima; sin datos sensibles."}
+    {id:"ipp",sigla:"IPP",nombre:"Índice de Presión Personal",valor:ippValue,nivel:level(ippValue,true),tendencia:trend(previousById.get("ipp")?.valor ?? position.ipp.base,ippValue),confianza:1,categoria:"personal",lectura:position.ipp.summary,senal:"Posición personal revisada y combinada con el contexto exterior.",accion_jisr:"Proteger margen, salud, foco y estabilidad familiar.",evidencia:[],motivo_dia:"Recalibración privada y ajuste exterior limitado.",fuentes_linea:"Resultado público mínimo; base y dimensiones privadas."},
+    {id:"ive",sigla:"IVE",nombre:"Índice de Ventaja Estratégica",valor:iveValue,nivel:level(iveValue),tendencia:trend(previousById.get("ive")?.valor ?? position.ive.base,iveValue),confianza:1,categoria:"personal",lectura:position.ive.summary,senal:"La necesidad de criterio aumenta cuando el entorno gana complejidad.",accion_jisr:"Convertir ventaja en producto, prospección y agenda activa.",evidencia:[],motivo_dia:"Recalibración privada y ajuste exterior limitado.",fuentes_linea:"Resultado público mínimo; base y dimensiones privadas."}
   ];
   const indices = hasNewData ? [...external, ...personal] : (previous.indices?.length ? previous.indices : [...external, ...personal]);
   const top = external.reduce((best, item) => item.valor > best.valor ? item : best, external[0]);
