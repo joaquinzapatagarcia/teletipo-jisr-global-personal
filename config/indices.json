@@ -5,12 +5,21 @@
   "sourcePolicy": {
     "lookback": "1d",
     "maxRecordsPerQuery": 20,
-    "requestDelayMs": 5500,
+    "requestDelayMs": 2500,
+    "timeoutMs": 22000,
+    "retryDelaysMs": [10000, 30000],
+    "cacheMaxAgeHours": 36,
     "minimumArticlesForMovement": 4,
     "maxLowEvidenceMove": 1,
     "newSignalWeight": 0.3,
     "shockSignalWeight": 0.45
   },
+  "masterQueries": [
+    {"id":"global","label":"GDELT Global","query":"(war OR sanctions OR geopolitical OR military OR conflict OR diplomacy OR Hormuz OR \"Red Sea\") sourcelang:english","indices":["igp","icsl"]},
+    {"id":"economy","label":"GDELT Economía y Mercados","query":"(inflation OR recession OR tariffs OR energy OR oil OR shipping OR \"interest rates\" OR \"bond yields\") sourcelang:english","indices":["ieg","iecv","icsl","imf"]},
+    {"id":"system","label":"GDELT Sociedad y Sistema","query":"(protests OR strikes OR polarization OR ransomware OR cyberattack OR \"data breach\") sourcelang:english","indices":["icsp","ics"]},
+    {"id":"local","label":"GDELT España y Baleares","query":"(Mallorca OR Baleares OR España) (inflación OR vivienda OR alquiler OR calor OR seguridad OR turismo) sourcelang:spanish","indices":["isfl","iecv","icsp"]}
+  ],
   "indices": [
     {
       "id": "igp", "sigla": "IGP", "nombre": "Índice Geopolítico", "categoria": "mundo", "base": 62,
