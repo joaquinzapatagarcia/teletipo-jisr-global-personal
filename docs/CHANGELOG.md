@@ -19,5 +19,5 @@
 - GDELT reducido de ocho consultas por índice a cuatro consultas maestras.
 - Reintentos progresivos, caché de 36 horas y fallos aislados por grifo/índice.
 - Salud individual de fuentes incluida en la salida pública.
-- Bases IPP/IVE recalibradas con BIG4 v2, sin publicar información sensible.
+- Entrada privada preparada para recalibrar IPP/IVE vía BIG4 sin publicar bases ni dimensiones.
 - Twelve Data conectado opcionalmente por secreto y separado en modo sombra.
