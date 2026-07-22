@@ -11,3 +11,13 @@
 - Eliminado el fallback visual con cifras que parecían actuales.
 - Consolidado un agente, un widget y un loader canónicos.
 - Añadidos esquema, validación, pruebas y documentación.
+# 2026-07-22 · Motor JISR 2.0
+
+- Nuevo texto: `LECTURA VIGENTE · DATOS INSUFICIENTES PARA ACTUALIZAR`.
+- Archivo editorial de ediciones válidas y registro operativo de todas las ejecuciones.
+- Cobertura progresiva 7/30/90 mediante `history-index.json`.
+- GDELT reducido de ocho consultas por índice a cuatro consultas maestras.
+- Reintentos progresivos, caché de 36 horas y fallos aislados por grifo/índice.
+- Salud individual de fuentes incluida en la salida pública.
+- Entrada privada preparada para recalibrar IPP/IVE vía BIG4 sin publicar bases ni dimensiones.
+- Twelve Data conectado opcionalmente por secreto y separado en modo sombra.

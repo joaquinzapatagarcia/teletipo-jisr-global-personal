@@ -17,7 +17,7 @@
   }
 
   function statusText(payload) {
-    if (payload.estado_publicacion === "conservada") return "Edición conservada · Fuentes externas temporalmente degradadas";
+    if (payload.estado_publicacion === "conservada") return "LECTURA VIGENTE · DATOS INSUFICIENTES PARA ACTUALIZAR";
     if (payload.estado_fuentes?.estado === "parciales") return "Actualizada · Fuentes parcialmente operativas";
     return "Última lectura validada";
   }

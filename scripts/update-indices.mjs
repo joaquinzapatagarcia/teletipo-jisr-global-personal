@@ -115,18 +115,56 @@ async function readJson(file, fallback = {}) {
   catch { return fallback; }
 }
 
-async function fetchQuery(query, policy) {
+async function writeJson(file, value) {
+  const target = path.join(ROOT, file);
+  await fs.mkdir(path.dirname(target), {recursive:true});
+  await fs.writeFile(target, `${JSON.stringify(value, null, 2)}\n`);
+}
+
+function transient(error) {
+  return /abort|timeout|HTTP (408|425|429|5\d\d)/i.test(String(error));
+}
+
+async function fetchQuery(source, policy, cached) {
   if (OFFLINE) return {ok: false, articles: [], error: "offline"};
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), 20000);
+  const delays = [0, ...(policy.retryDelaysMs || [])];
+  let lastError = "unknown";
+  for (let attempt = 0; attempt < delays.length; attempt += 1) {
+    if (delays[attempt]) await sleep(delays[attempt]);
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), policy.timeoutMs || 22000);
+    try {
+      const response = await fetch(buildGdeltUrl(source.query, policy), {signal:controller.signal, headers:{"user-agent":"JISR-Global-Personal/2.0"}});
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const payload = await response.json();
+      const articles = dedupeArticles((payload.articles || []).map((article) => ({title:article.title || "",url:article.url || "",domain:article.domain || "",seenDate:article.seendate || ""})));
+      return {ok:true,articles,error:null,attempts:attempt+1,mode:"live",updatedAt:new Date().toISOString()};
+    } catch (error) {
+      lastError = error.name === "AbortError" ? "timeout" : error.message;
+      if (!transient(lastError)) break;
+    } finally { clearTimeout(timeout); }
+  }
+  const age = cached?.updatedAt ? (Date.now()-Date.parse(cached.updatedAt))/36e5 : Infinity;
+  if (cached?.articles?.length && age <= (policy.cacheMaxAgeHours || 36)) return {...cached,ok:true,error:lastError,mode:"cache",attempts:delays.length};
+  return {ok:false,articles:[],error:lastError,attempts:delays.length,mode:"failed",updatedAt:new Date().toISOString()};
+}
+
+async function fetchMarket(now) {
+  const key = process.env.TWELVE_DATA_API_KEY;
+  const symbols = "SPY,QQQ,DAX,IBEX,NIKKEI,EUR/USD,WTI,XAU/USD,BTC/USD";
+  if (!key || OFFLINE) return {estado:key ? "sin_consulta" : "canal_en_preparacion",provider:"Twelve Data",observacion_activa:false,updatedAt:now.toISOString(),instruments:[]};
   try {
-    const response = await fetch(buildGdeltUrl(query, policy), {signal: controller.signal, headers:{"user-agent":"JISR-Global-Personal/1.0"}});
+    const url = new URL("https://api.twelvedata.com/quote");
+    url.searchParams.set("symbol", symbols); url.searchParams.set("apikey", key);
+    const response = await fetch(url, {headers:{"user-agent":"JISR-Market/1.0"}});
     if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const payload = await response.json();
-    return {ok: true, articles: (payload.articles || []).map((article) => ({title:article.title || "", url:article.url || "", domain:article.domain || "", seenDate:article.seendate || ""}))};
+    if (payload.status === "error") throw new Error(payload.message || "Twelve Data error");
+    const rows = Object.values(payload).filter((x) => x && typeof x === "object" && x.symbol);
+    return {estado:"modo_sombra",provider:"Twelve Data",observacion_activa:true,updatedAt:now.toISOString(),instruments:rows.map((x)=>({symbol:x.symbol,name:x.name || x.symbol,close:Number(x.close),changePercent:Number(x.percent_change)})).filter((x)=>Number.isFinite(x.close))};
   } catch (error) {
-    return {ok: false, articles: [], error: error.message};
-  } finally { clearTimeout(timeout); }
+    return {estado:"degradado",provider:"Twelve Data",observacion_activa:false,updatedAt:now.toISOString(),error:error.message,instruments:[]};
+  }
 }
 
 export function validatePublicOutput(data) {
@@ -147,14 +185,25 @@ export function validatePublicOutput(data) {
 
 export async function run(now = new Date()) {
   const config = await readJson("config/indices.json");
-  const position = await readJson("config/personal-position.public.json");
+  const publicPosition = await readJson("config/personal-position.public.json");
+  let position = publicPosition;
+  if (process.env.JISR_PERSONAL_POSITION_JSON) {
+    try {
+      const privatePosition = JSON.parse(process.env.JISR_PERSONAL_POSITION_JSON);
+      position = {
+        ipp: {...publicPosition.ipp, base:clamp(privatePosition.ipp)},
+        ive: {...publicPosition.ive, base:clamp(privatePosition.ive)}
+      };
+    } catch { console.warn("JISR_PERSONAL_POSITION_JSON inválido; se usa la base pública."); }
+  }
   const previous = await readJson(config.dataFile, {indices: []});
+  const sourceCache = await readJson("public/data/source-cache.json", {});
   const previousById = new Map((previous.indices || []).map((item) => [item.id, item]));
   const results = [];
 
-  for (const [index, definition] of config.indices.entries()) {
+  for (const [index, source] of config.masterQueries.entries()) {
     if (index > 0 && !OFFLINE) await sleep(config.sourcePolicy.requestDelayMs ?? 5500);
-    results.push({...await fetchQuery(definition.query, config.sourcePolicy), definition});
+    results.push({...await fetchQuery(source, config.sourcePolicy, sourceCache[source.id]), source});
   }
 
   const successful = results.filter((result) => result.ok).length;
@@ -162,11 +211,13 @@ export async function run(now = new Date()) {
   const totalEvidence = results.reduce((sum, result) => sum + result.articles.length, 0);
   const hasNewData = successful > 0 && totalEvidence > 0;
   const edition = hasNewData ? scheduledEdition(now, config.timezone) : (previous.edicion || scheduledEdition(now, config.timezone));
-  const external = results.map((result) => {
-    const definition = result.definition;
+  const external = config.indices.map((definition) => {
+    const applicable = results.filter((result) => result.source.indices.includes(definition.id));
+    const articles = dedupeArticles(applicable.flatMap((result) => result.articles));
+    const sourceOk = applicable.some((result) => result.ok);
     const old = previousById.get(definition.id);
-    if (!hasNewData || !result.ok) return old || {id:definition.id,sigla:definition.sigla,nombre:definition.nombre,valor:definition.base,nivel:level(definition.base),tendencia:"estable",confianza:0,categoria:definition.categoria,lectura:"Lectura conservada por falta de datos nuevos.",senal:"Sin señales nuevas verificables.",accion_jisr:definition.actions[bucket(definition.base)],evidencia:[],motivo_dia:"Edición conservada.",fuentes_linea:"Fuentes externas temporalmente degradadas."};
-    const scored = scoreArticles(definition, old?.valor ?? definition.base, result.articles, config.sourcePolicy);
+    if (!hasNewData || !sourceOk || !articles.length) return old || {id:definition.id,sigla:definition.sigla,nombre:definition.nombre,valor:definition.base,nivel:level(definition.base),tendencia:"estable",confianza:0,categoria:definition.categoria,lectura:"Última lectura válida, sin datos suficientes para actualizar este índice.",senal:"Sin señales nuevas verificables.",accion_jisr:definition.actions[bucket(definition.base)],evidencia:[],motivo_dia:"Lectura vigente.",fuentes_linea:"Datos externos temporalmente insuficientes."};
+    const scored = scoreArticles(definition, old?.valor ?? definition.base, articles, config.sourcePolicy);
     const evidence = scored.evidence.slice(0, 5).map((article) => ({titulo:article.title,fuente:article.domain,url:article.url,fecha:article.seenDate}));
     return {id:definition.id,sigla:definition.sigla,nombre:definition.nombre,valor:scored.value,nivel:level(scored.value),tendencia:trend(old?.valor ?? definition.base,scored.value),confianza:scored.confidence,categoria:definition.categoria,lectura:reading(definition,scored.value,scored.evidence),senal:evidence.slice(0,3).map((item)=>item.titulo).join(" | ") || "Sin señales nuevas verificables.",accion_jisr:definition.actions[bucket(scored.value)],evidencia:evidence,motivo_dia:`${evidence.length} evidencias útiles; cálculo ${scored.mode}.`,fuentes_linea:`${new Set(scored.evidence.map((item)=>item.domain).filter(Boolean)).size} fuentes distintas vía GDELT.`};
   });
@@ -175,28 +226,48 @@ export async function run(now = new Date()) {
   const ippValue = clamp(position.ipp.base + Math.max(-2, Math.min(6, Math.round((average - 55) / 8))));
   const iveValue = clamp(position.ive.base + Math.max(-2, Math.min(5, Math.round((average - 50) / 10))) - Math.max(0, Math.round((ippValue - 40) / 6)));
   const personal = [
-    {id:"ipp",sigla:"IPP",nombre:"Índice de Presión Personal",valor:ippValue,nivel:level(ippValue,true),tendencia:trend(previousById.get("ipp")?.valor ?? position.ipp.base,ippValue),confianza:1,categoria:"personal",lectura:position.ipp.summary,senal:"Posición personal revisada de forma manual y combinada con el contexto exterior.",accion_jisr:"Proteger margen, salud, foco y estabilidad familiar.",evidencia:[],motivo_dia:`Base manual ${position.ipp.base}; ajuste exterior ${ippValue-position.ipp.base >= 0 ? "+" : ""}${ippValue-position.ipp.base}.`,fuentes_linea:"Base personal pública mínima; sin datos sensibles."},
-    {id:"ive",sigla:"IVE",nombre:"Índice de Ventaja Estratégica",valor:iveValue,nivel:level(iveValue),tendencia:trend(previousById.get("ive")?.valor ?? position.ive.base,iveValue),confianza:1,categoria:"personal",lectura:position.ive.summary,senal:"La necesidad de criterio aumenta cuando el entorno gana complejidad.",accion_jisr:"Convertir ventaja en producto, prospección y agenda activa.",evidencia:[],motivo_dia:`Base manual ${position.ive.base}; ajuste exterior ${iveValue-position.ive.base >= 0 ? "+" : ""}${iveValue-position.ive.base}.`,fuentes_linea:"Base personal pública mínima; sin datos sensibles."}
+    {id:"ipp",sigla:"IPP",nombre:"Índice de Presión Personal",valor:ippValue,nivel:level(ippValue,true),tendencia:trend(previousById.get("ipp")?.valor ?? position.ipp.base,ippValue),confianza:1,categoria:"personal",lectura:position.ipp.summary,senal:"Posición personal revisada y combinada con el contexto exterior.",accion_jisr:"Proteger margen, salud, foco y estabilidad familiar.",evidencia:[],motivo_dia:"Recalibración privada y ajuste exterior limitado.",fuentes_linea:"Resultado público mínimo; base y dimensiones privadas."},
+    {id:"ive",sigla:"IVE",nombre:"Índice de Ventaja Estratégica",valor:iveValue,nivel:level(iveValue),tendencia:trend(previousById.get("ive")?.valor ?? position.ive.base,iveValue),confianza:1,categoria:"personal",lectura:position.ive.summary,senal:"La necesidad de criterio aumenta cuando el entorno gana complejidad.",accion_jisr:"Convertir ventaja en producto, prospección y agenda activa.",evidencia:[],motivo_dia:"Recalibración privada y ajuste exterior limitado.",fuentes_linea:"Resultado público mínimo; base y dimensiones privadas."}
   ];
   const indices = hasNewData ? [...external, ...personal] : (previous.indices?.length ? previous.indices : [...external, ...personal]);
   const top = external.reduce((best, item) => item.valor > best.valor ? item : best, external[0]);
   const sourceState = failed === results.length ? "degradadas" : !hasNewData ? "sin_senales_nuevas" : failed ? "parciales" : "operativas";
+  const sourceHealth = results.map((result)=>({id:result.source.id,fuente:result.source.label,estado:result.mode === "live" ? "operativo" : result.mode === "cache" ? "caché" : "fallo",ultimo_dato_valido:result.ok ? result.updatedAt : (sourceCache[result.source.id]?.updatedAt || null),intentos:result.attempts,evidencias:result.articles.length,error:result.error || null}));
   const output = {
-    proyecto: config.project, version: "1.0", timezone: config.timezone,
+    proyecto: config.project, version: "2.0", timezone: config.timezone,
     ultima_ejecucion: now.toISOString(),
     ultima_actualizacion_con_datos: hasNewData ? now.toISOString() : (previous.ultima_actualizacion_con_datos || previous.actualizado || null),
     edicion: edition,
     estado_publicacion: hasNewData ? "actualizada" : "conservada",
-    estado_fuentes: {estado:sourceState, consultas_totales:results.length, consultas_correctas:successful, consultas_fallidas:failed, evidencias_totales:totalEvidence},
+    estado_fuentes: {estado:sourceState, consultas_totales:results.length, consultas_correctas:successful, consultas_fallidas:failed, evidencias_totales:totalEvidence,grifos:sourceHealth},
     escala: {min:0,max:100,lectura:"0 equivale a tensión muy baja; 100 equivale a tensión extrema."},
     titular: hasNewData ? `El centro de gravedad está en ${top.sigla} (${top.valor}).` : (previous.titular || "Edición conservada: faltan señales externas verificables."),
     lectura_jisr: hasNewData ? `La presión principal procede de ${top.sigla}. IPP ${ippValue} e IVE ${iveValue}: proteger margen y convertir criterio en ventaja.` : (previous.lectura_jisr || "El tablero conserva la última lectura validada."),
     posicion_personal: {ipp:indices.find((item)=>item.id==="ipp")?.valor,ive:indices.find((item)=>item.id==="ive")?.valor,resumen:"Posición pública mínima; el perfil detallado permanece fuera del repositorio."},
-    indices
+    indices,
+    historico: {index_url:"public/data/history-index.json",ventanas:[7,30,90]}
   };
   const errors = validatePublicOutput(output);
   if (errors.length) throw new Error(`Salida inválida:\n- ${errors.join("\n- ")}`);
-  if (!DRY_RUN) await fs.writeFile(path.join(ROOT, config.dataFile), `${JSON.stringify(output, null, 2)}\n`);
+  if (!DRY_RUN) {
+    const operation = {ejecucion:now.toISOString(),edicion:scheduledEdition(now, config.timezone),publicacion:output.estado_publicacion,fuentes:sourceHealth,evidencias:totalEvidence};
+    const operationFile = `public/data/operations/${operation.edicion.date}.json`;
+    const operationLog = await readJson(operationFile, {date:operation.edicion.date,runs:[]});
+    operationLog.runs.push(operation);
+    await writeJson(operationFile, operationLog);
+    await writeJson("public/data/source-cache.json", {...sourceCache,...Object.fromEntries(results.filter((r)=>r.ok && r.mode === "live").map((r)=>[r.source.id,{articles:r.articles,updatedAt:r.updatedAt}]))});
+    if (hasNewData) {
+      const archiveFile = `public/data/archive/${edition.date.slice(0,4)}/${edition.date.slice(5,7)}/${edition.id}.json`;
+      const history = await readJson("public/data/history-index.json", {version:"1.0",editions:[]});
+      const summary = {id:edition.id,date:edition.date,slot:edition.slot,path:archiveFile.replace(/^public\//,""),indices:Object.fromEntries(indices.map((item)=>[item.id,item.valor]))};
+      history.editions = [...history.editions.filter((item)=>item.id !== edition.id),summary].sort((a,b)=>a.id.localeCompare(b.id)).slice(-180);
+      history.coverage = Object.fromEntries([7,30,90].map((days)=>[days,Math.min(days,new Set(history.editions.map((item)=>item.date)).size)]));
+      await writeJson(archiveFile, output);
+      await writeJson("public/data/history-index.json", history);
+    }
+    await writeJson(config.dataFile, output);
+    await writeJson("public/data/market-latest.json", await fetchMarket(now));
+  }
   console.log(JSON.stringify({estado:output.estado_publicacion,fuentes:sourceState,evidencias:totalEvidence,edicion:edition.id}));
   return output;
 }
