@@ -2,22 +2,16 @@
   "global": {
     "articles": [
       {
-        "title": "Goldman Warns Brent Could Top $120 If Gulf Chokepoint Crisis Deepens",
-        "url": "https://www.zerohedge.com/energy/goldman-warns-brent-could-top-120-if-gulf-chokepoint-crisis-deepens",
-        "domain": "zerohedge.com",
-        "seenDate": "20260721T161500Z"
-      },
-      {
-        "title": "Saudi oil tankers bound for China and India make U - turn after Houthi threat in Red Sea",
-        "url": "https://www.livemint.com/news/world/saudi-oil-tankers-bound-for-china-and-india-make-u-turn-after-houthi-threat-in-red-sea-11784639412243.html",
-        "domain": "livemint.com",
-        "seenDate": "20260721T134500Z"
-      },
-      {
         "title": "Talks remain open , strikes enter night 11 : Rubio questions Iran seriousness",
         "url": "https://www.moneycontrol.com/world/talks-remain-open-strikes-enter-night-11-rubio-questions-iran-s-seriousness-article-13980140.html",
         "domain": "moneycontrol.com",
         "seenDate": "20260722T051500Z"
+      },
+      {
+        "title": "Goldman warns : Oil could surge past $120 if Hormuz disruptions continue",
+        "url": "https://www.businesstoday.in/latest/economy/story/goldman-warns-oil-could-surge-past-120-if-hormuz-disruptions-continue-544475-2026-07-22",
+        "domain": "businesstoday.in",
+        "seenDate": "20260722T120000Z"
       },
       {
         "title": "Marco Rubio says US still willing to negotiate over Iran crisis",
@@ -48,6 +42,18 @@
         "url": "https://dunyanews.tv/en/World/963951-rubio-says-us-still-willing-to-negotiate-over-iran-crisis",
         "domain": "dunyanews.tv",
         "seenDate": "20260722T053000Z"
+      },
+      {
+        "title": "US still willing to negotiate over Iran crisis : Rubio",
+        "url": "https://www.standard.net.au/story/9315160/us-still-willing-to-negotiate-over-iran-crisis-rubio/",
+        "domain": "standard.net.au",
+        "seenDate": "20260722T084500Z"
+      },
+      {
+        "title": "Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://www.asiaone.com:443/world/rubio-says-us-still-willing-negotiate-over-iran-crisis",
+        "domain": "asiaone.com",
+        "seenDate": "20260722T084500Z"
       },
       {
         "title": "Rubio says US still willing to negotiate over Iran crisis",
@@ -98,6 +104,12 @@
         "seenDate": "20260721T213000Z"
       },
       {
+        "title": "US still willing to negotiate over Iran crisis : Rubio",
+        "url": "https://www.bendigoadvertiser.com.au/story/9315160/us-still-willing-to-negotiate-over-iran-crisis-rubio/",
+        "domain": "bendigoadvertiser.com.au",
+        "seenDate": "20260722T084500Z"
+      },
+      {
         "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
         "url": "https://www.bournemouthecho.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
         "domain": "bournemouthecho.co.uk",
@@ -108,21 +120,9 @@
         "url": "https://www.thetelegraphandargus.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
         "domain": "thetelegraphandargus.co.uk",
         "seenDate": "20260721T234500Z"
-      },
-      {
-        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
-        "url": "https://www.echo-news.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
-        "domain": "echo-news.co.uk",
-        "seenDate": "20260721T213000Z"
-      },
-      {
-        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
-        "url": "https://www.salisburyjournal.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
-        "domain": "salisburyjournal.co.uk",
-        "seenDate": "20260722T000000Z"
       }
     ],
-    "updatedAt": "2026-07-22T08:40:47.620Z"
+    "updatedAt": "2026-07-22T19:39:43.537Z"
   },
   "system": {
     "articles": [
