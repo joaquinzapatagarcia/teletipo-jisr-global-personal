@@ -34,6 +34,7 @@ jobs:
       - name: Ejecutar agente JISR
         env:
           TWELVE_DATA_API_KEY: ${{ secrets.TWELVE_DATA_API_KEY }}
+          JISR_PERSONAL_POSITION_JSON: ${{ secrets.JISR_PERSONAL_POSITION_JSON }}
         run: npm run update
 
       - name: Validar salida pública
