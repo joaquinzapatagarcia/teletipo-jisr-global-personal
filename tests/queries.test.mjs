@@ -6,12 +6,12 @@ import { buildGdeltUrl, isGroupedOrQuery } from "../scripts/update-indices.mjs";
 const config = JSON.parse(await fs.readFile("config/indices.json", "utf8"));
 
 test("todas las consultas OR están agrupadas", () => {
-  for (const index of config.indices) assert.equal(isGroupedOrQuery(index.query), true, index.id);
+  for (const source of config.masterQueries) assert.equal(isGroupedOrQuery(source.query), true, source.id);
 });
 
 test("las consultas producen una URL GDELT válida", () => {
-  for (const index of config.indices) {
-    const url = new URL(buildGdeltUrl(index.query, config.sourcePolicy));
+  for (const source of config.masterQueries) {
+    const url = new URL(buildGdeltUrl(source.query, config.sourcePolicy));
     assert.equal(url.hostname, "api.gdeltproject.org");
     assert.equal(url.searchParams.get("format"), "json");
   }
