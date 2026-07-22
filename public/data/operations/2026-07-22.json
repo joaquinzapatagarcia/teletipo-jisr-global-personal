@@ -1,0 +1,53 @@
+{
+  "date": "2026-07-22",
+  "runs": [
+    {
+      "ejecucion": "2026-07-22T08:40:30.755Z",
+      "edicion": {
+        "id": "2026-07-22-0807",
+        "date": "2026-07-22",
+        "slot": "08:07"
+      },
+      "publicacion": "actualizada",
+      "fuentes": [
+        {
+          "id": "global",
+          "fuente": "GDELT Global",
+          "estado": "operativo",
+          "ultimo_dato_valido": "2026-07-22T08:40:47.620Z",
+          "intentos": 1,
+          "evidencias": 20,
+          "error": null
+        },
+        {
+          "id": "economy",
+          "fuente": "GDELT Economía y Mercados",
+          "estado": "fallo",
+          "ultimo_dato_valido": null,
+          "intentos": 3,
+          "evidencias": 0,
+          "error": "fetch failed"
+        },
+        {
+          "id": "system",
+          "fuente": "GDELT Sociedad y Sistema",
+          "estado": "operativo",
+          "ultimo_dato_valido": "2026-07-22T08:41:17.226Z",
+          "intentos": 1,
+          "evidencias": 20,
+          "error": null
+        },
+        {
+          "id": "local",
+          "fuente": "GDELT España y Baleares",
+          "estado": "fallo",
+          "ultimo_dato_valido": null,
+          "intentos": 3,
+          "evidencias": 0,
+          "error": "HTTP 429"
+        }
+      ],
+      "evidencias": 40
+    }
+  ]
+}

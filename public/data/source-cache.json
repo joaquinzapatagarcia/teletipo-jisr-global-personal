@@ -1,1 +1,252 @@
-{}
+{
+  "global": {
+    "articles": [
+      {
+        "title": "Goldman Warns Brent Could Top $120 If Gulf Chokepoint Crisis Deepens",
+        "url": "https://www.zerohedge.com/energy/goldman-warns-brent-could-top-120-if-gulf-chokepoint-crisis-deepens",
+        "domain": "zerohedge.com",
+        "seenDate": "20260721T161500Z"
+      },
+      {
+        "title": "Saudi oil tankers bound for China and India make U - turn after Houthi threat in Red Sea",
+        "url": "https://www.livemint.com/news/world/saudi-oil-tankers-bound-for-china-and-india-make-u-turn-after-houthi-threat-in-red-sea-11784639412243.html",
+        "domain": "livemint.com",
+        "seenDate": "20260721T134500Z"
+      },
+      {
+        "title": "Talks remain open , strikes enter night 11 : Rubio questions Iran seriousness",
+        "url": "https://www.moneycontrol.com/world/talks-remain-open-strikes-enter-night-11-rubio-questions-iran-s-seriousness-article-13980140.html",
+        "domain": "moneycontrol.com",
+        "seenDate": "20260722T051500Z"
+      },
+      {
+        "title": "Marco Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://arynews.tv/marco-rubio-says-us-still-willing-to-negotiate-over-iran-crisis",
+        "domain": "arynews.tv",
+        "seenDate": "20260722T060000Z"
+      },
+      {
+        "title": "Marco Rubio says US open to Middle East ceasefire , Iran not serious",
+        "url": "http://www.jpost.com/middle-east/iran-news/article-903256",
+        "domain": "jpost.com",
+        "seenDate": "20260722T064500Z"
+      },
+      {
+        "title": "US secretary of state Marco Rubio claims Iran not serious about peace talks",
+        "url": "https://www.irishtimes.com/world/middle-east/2026/07/22/us-secretary-of-state-marco-rubio-claims-iran-not-serious-about-peace-talks/",
+        "domain": "irishtimes.com",
+        "seenDate": "20260722T071500Z"
+      },
+      {
+        "title": "Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://www.rappler.com/world/middle-east/usa-iran-war-updates-july-22-2026/",
+        "domain": "rappler.com",
+        "seenDate": "20260722T064500Z"
+      },
+      {
+        "title": "Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://dunyanews.tv/en/World/963951-rubio-says-us-still-willing-to-negotiate-over-iran-crisis",
+        "domain": "dunyanews.tv",
+        "seenDate": "20260722T053000Z"
+      },
+      {
+        "title": "Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://www.internazionale.it/ultime-notizie-reuters/2026/07/22/rubio-says-us-still-willing-to-negotiate-over-iran-crisis",
+        "domain": "internazionale.it",
+        "seenDate": "20260722T041500Z"
+      },
+      {
+        "title": "Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://www.arabnews.com/node/2651834/middle-east",
+        "domain": "arabnews.com",
+        "seenDate": "20260722T041500Z"
+      },
+      {
+        "title": "Rubio says US still willing to negotiate over Iran crisis",
+        "url": "https://www.al-monitor.com/originals/2026/07/rubio-says-us-still-willing-negotiate-over-iran-crisis",
+        "domain": "al-monitor.com",
+        "seenDate": "20260722T044500Z"
+      },
+      {
+        "title": "US military completes 11th night of strikes on Iran",
+        "url": "https://www.breakingnews.ie/world/us-military-completes-11th-night-of-strikes-on-iran-1930230.html",
+        "domain": "breakingnews.ie",
+        "seenDate": "20260722T053000Z"
+      },
+      {
+        "title": "Marco Rubio says US open to Middle East ceasefire , Iran not serious",
+        "url": "https://www.jpost.com/middle-east/iran-news/article-903256",
+        "domain": "jpost.com",
+        "seenDate": "20260722T081500Z"
+      },
+      {
+        "title": "US military completes 11th night of strikes on Iran",
+        "url": "https://www.standard.net.au/story/9315160/us-military-completes-11th-night-of-strikes-on-iran/",
+        "domain": "standard.net.au",
+        "seenDate": "20260722T040000Z"
+      },
+      {
+        "title": "US military completes 11th night of strikes on Iran as attacks overshadow diplomacy",
+        "url": "https://isp.netscape.com:443/news/world/story/0001/20260722/1664f6a4dad005a99771b2ad15213585",
+        "domain": "isp.netscape.com",
+        "seenDate": "20260722T054500Z"
+      },
+      {
+        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
+        "url": "https://www.edp24.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
+        "domain": "edp24.co.uk",
+        "seenDate": "20260721T213000Z"
+      },
+      {
+        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
+        "url": "https://www.bournemouthecho.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
+        "domain": "bournemouthecho.co.uk",
+        "seenDate": "20260721T221500Z"
+      },
+      {
+        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
+        "url": "https://www.thetelegraphandargus.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
+        "domain": "thetelegraphandargus.co.uk",
+        "seenDate": "20260721T234500Z"
+      },
+      {
+        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
+        "url": "https://www.echo-news.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
+        "domain": "echo-news.co.uk",
+        "seenDate": "20260721T213000Z"
+      },
+      {
+        "title": "US and Iran trade attacks , overshadowing efforts to keep diplomacy alive",
+        "url": "https://www.salisburyjournal.co.uk/news/national/26300224.us-iran-trade-attacks-overshadowing-efforts-keep-diplomacy-alive/",
+        "domain": "salisburyjournal.co.uk",
+        "seenDate": "20260722T000000Z"
+      }
+    ],
+    "updatedAt": "2026-07-22T08:40:47.620Z"
+  },
+  "system": {
+    "articles": [
+      {
+        "title": "Coca - Cola fairlife cyberattack : Hackers claim 1TB data theft after US production halt",
+        "url": "https://www.moneycontrol.com/news/business/coca-cola-fairlife-cyberattack-hackers-claim-1tb-data-theft-after-us-production-halt-13980021.html",
+        "domain": "moneycontrol.com",
+        "seenDate": "20260722T034500Z"
+      },
+      {
+        "title": "AI music generator Suno breach affects 55M users , per Have I Been Pwned",
+        "url": "https://techcrunch.com/2026/07/21/ai-music-generator-suno-breach-affects-55m-users-per-have-i-been-pwned/",
+        "domain": "techcrunch.com",
+        "seenDate": "20260721T160000Z"
+      },
+      {
+        "title": "A New Ransomware Threat Actor Emerges Every Week , Warns Report",
+        "url": "https://www.infosecurity-magazine.com/news/new-ransomware-weekly/",
+        "domain": "infosecurity-magazine.com",
+        "seenDate": "20260721T143000Z"
+      },
+      {
+        "title": "Ernst & Young breach exposes client tax data - find out if youre at risk and what to do next",
+        "url": "https://www.zdnet.com/article/ernst-young-breach-exposed-client-tax-data/",
+        "domain": "zdnet.com",
+        "seenDate": "20260721T160000Z"
+      },
+      {
+        "title": "Windows users told  switch on  setting that can block cyber attack",
+        "url": "https://www.plymouthherald.co.uk/news/uk-world-news/one-windows-computer-setting-tendendo-11068755",
+        "domain": "plymouthherald.co.uk",
+        "seenDate": "20260721T124500Z"
+      },
+      {
+        "title": "Windows users told  switch on  setting that can block cyber attack",
+        "url": "https://www.nottinghampost.com/news/uk-world-news/one-windows-computer-setting-tendendo-11068755",
+        "domain": "nottinghampost.com",
+        "seenDate": "20260721T143000Z"
+      },
+      {
+        "title": "Turning on this one Windows computer setting cuts risk of cyber attack",
+        "url": "https://www.walesonline.co.uk/news/uk-news/one-windows-computer-setting-tendendo-34323096",
+        "domain": "walesonline.co.uk",
+        "seenDate": "20260721T121500Z"
+      },
+      {
+        "title": "Windows users told  switch on  setting that can block cyber attack",
+        "url": "https://www.bristolpost.co.uk/news/uk-world-news/one-windows-computer-setting-tendendo-11068755",
+        "domain": "bristolpost.co.uk",
+        "seenDate": "20260721T134500Z"
+      },
+      {
+        "title": "Windows users told  switch on  setting that can block cyber attack",
+        "url": "https://www.leicestermercury.co.uk/news/uk-world-news/one-windows-computer-setting-tendendo-11068755",
+        "domain": "leicestermercury.co.uk",
+        "seenDate": "20260721T121500Z"
+      },
+      {
+        "title": "Windows users told  switch on  setting that can block cyber attack",
+        "url": "https://www.stokesentinel.co.uk/news/uk-world-news/one-windows-computer-setting-tendendo-11068755",
+        "domain": "stokesentinel.co.uk",
+        "seenDate": "20260721T134500Z"
+      },
+      {
+        "title": "Turning on this one Windows computer setting cuts risk of cyber attack",
+        "url": "https://www.coventrytelegraph.net/news/uk-world-news/one-windows-computer-setting-tendendo-34323096",
+        "domain": "coventrytelegraph.net",
+        "seenDate": "20260721T121500Z"
+      },
+      {
+        "title": "Windows users told  switch on  setting that can block cyber attack",
+        "url": "https://www.hulldailymail.co.uk/news/uk-world-news/one-windows-computer-setting-tendendo-11068755",
+        "domain": "hulldailymail.co.uk",
+        "seenDate": "20260721T140000Z"
+      },
+      {
+        "title": "OpenAI Models Breached Hugging Face Systems During ExploitGym Test",
+        "url": "https://www.el-balad.com/17034619",
+        "domain": "el-balad.com",
+        "seenDate": "20260722T033000Z"
+      },
+      {
+        "title": "This is why Fairlife stopped producing milk",
+        "url": "https://www.wsmv.com/2026/07/20/fairlife-stops-us-milk-production-after-ransomware-attack/",
+        "domain": "wsmv.com",
+        "seenDate": "20260721T153000Z"
+      },
+      {
+        "title": "Australia news LIVE : Sydney developer bypasses council 250 - home approval ;  Gatto tax  for Victorian unit buyers ; Labor racks up millions in gambling donations",
+        "url": "https://www.brisbanetimes.com.au/national/australia-news-live-sydney-developer-bypasses-council-250-home-approval-gatto-tax-for-victorian-unit-buyers-labor-racks-up-millions-in-gambling-donations-20260722-p60hd7.html",
+        "domain": "brisbanetimes.com.au",
+        "seenDate": "20260721T210000Z"
+      },
+      {
+        "title": "Zelenskiy dismisses Ukrainian commander - in - chief",
+        "url": "https://www.perthnow.com.au/news/conflict/zelenskiy-dismisses-ukrainian-commander-in-chief-c-22610208",
+        "domain": "perthnow.com.au",
+        "seenDate": "20260721T211500Z"
+      },
+      {
+        "title": "NBA Election Worst In History , Marred By Irregularities SAN Olumuyiwa",
+        "url": "https://leadership.ng/nba-election-worst-in-history-marred-by-irregularities-san-olumuyiwa/",
+        "domain": "leadership.ng",
+        "seenDate": "20260721T160000Z"
+      },
+      {
+        "title": "Zelenskyy replaces Ukraine army chief after protests over military leadership - National",
+        "url": "https://globalnews.ca/news/11974902/ukraine-zelenskyy-army-chief-replaced/",
+        "domain": "globalnews.ca",
+        "seenDate": "20260721T231500Z"
+      },
+      {
+        "title": "PNG must strengthen cyber resilience , says expert",
+        "url": "https://www.thenational.com.pg/png-must-strengthen-cyber-resilience-says-expert/",
+        "domain": "thenational.com.pg",
+        "seenDate": "20260722T081500Z"
+      },
+      {
+        "title": "Volodymyr Zelensky replaces top military commander with Mykhailo Drapatyi amid protests",
+        "url": "http://www.jpost.com/international/internationalrussia-ukraine-war/article-903242",
+        "domain": "jpost.com",
+        "seenDate": "20260721T233000Z"
+      }
+    ],
+    "updatedAt": "2026-07-22T08:41:17.226Z"
+  }
+}
