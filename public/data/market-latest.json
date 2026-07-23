@@ -2,7 +2,7 @@
   "estado": "degradado",
   "provider": "Twelve Data",
   "observacion_activa": false,
-  "updatedAt": "2026-07-22T19:39:26.233Z",
+  "updatedAt": "2026-07-23T08:42:14.200Z",
   "error": "HTTP 429",
   "instruments": []
 }
